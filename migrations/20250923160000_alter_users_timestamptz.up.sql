@@ -1,0 +1,3 @@
+-- Alter users table to use TIMESTAMPTZ (placeholder migration)
+-- This migration was referenced but not needed for church app
+-- Keeping it as a stub to avoid migration errors
