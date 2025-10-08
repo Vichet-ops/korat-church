@@ -1,4 +1,4 @@
-.PHONY: help setup up stop logs db-create-migration db-migrate db-rollback
+.PHONY: help setup up stop logs db-create-migration db-migrate db-rollback rebuild-frontend
 
 # Default target
 help: ## Show available commands
@@ -67,6 +67,7 @@ up: ## Start development session (packages, migrations, containers)
 	@echo "📋 Useful commands:"
 	@echo "   make logs      - View all logs"
 	@echo "   make stop      - Stop all services"
+	@echo "   make rebuild-frontend - Rebuild and restart frontend container"
 	@echo "   make help      - See all commands"
 
 # Stop services (non-destructive)
@@ -89,7 +90,7 @@ db-create-migration: ## Create new migration (usage: make db-create-migration na
 	@if command -v migrate >/dev/null 2>&1; then \
 		migrate create -ext sql -dir migrations $(name); \
 	else \
-		docker run --rm -v $(PWD)/migrations:/migrations migrate/migrate create -ext sql -dir /migrations $(name); \
+		docker run --rm -v "$(PWD)/migrations:/migrations" migrate/migrate:latest create -ext sql -dir /migrations $(name); \
 	fi
 	@echo "✅ Migration created in migrations/ directory"
 
@@ -103,8 +104,8 @@ db-migrate: ## Run pending migrations
 	if command -v migrate >/dev/null 2>&1; then \
 		migrate -path migrations -database "$$DATABASE_URL" up; \
 	else \
-		docker run --rm -v $(PWD)/migrations:/migrations --network host migrate/migrate \
-		-path /migrations -database "postgres://postgres:postgres@localhost:5432/manage?sslmode=disable" up; \
+		docker run --rm -v "$(PWD)/migrations:/migrations" --network host migrate/migrate:latest \
+		-path /migrations -database "$$DATABASE_URL" up; \
 	fi
 	@echo "✅ Migrations complete"
 
@@ -118,7 +119,15 @@ db-rollback: ## Rollback last migration
 	if command -v migrate >/dev/null 2>&1; then \
 		migrate -path migrations -database "$$DATABASE_URL" down 1; \
 	else \
-		docker run --rm -v $(PWD)/migrations:/migrations --network host migrate/migrate \
-		-path /migrations -database "postgres://postgres:postgres@localhost:5432/manage?sslmode=disable" down 1; \
+		docker run --rm -v "$(PWD)/migrations:/migrations" --network host migrate/migrate:latest \
+		-path /migrations -database "$$DATABASE_URL" down 1; \
 	fi
 	@echo "✅ Rollback complete"
+
+# Rebuild frontend image and restart container
+rebuild-frontend: ## Rebuild and restart frontend container
+	@echo "🔁 Rebuilding frontend image..."
+	@docker-compose build frontend
+	@echo "🚀 Restarting frontend container..."
+	@docker-compose up -d frontend
+	@echo "✅ Frontend rebuilt and restarted. Visit http://localhost:3000"

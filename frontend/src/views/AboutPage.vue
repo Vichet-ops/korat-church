@@ -4,38 +4,46 @@
     <div
       class="relative h-64 md:h-80 lg:h-96 flex items-center justify-center"
       style="
-        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        background: linear-gradient(
+            rgba(11, 31, 58, 0.45),
+            rgba(27, 47, 88, 0.55)
+          ),
           url('/images/church_building_1.jpg') no-repeat center center;
         background-size: cover;
       "
     >
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">About Us</h1>
-        <p class="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto">
+        <h1
+          class="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4"
+        >
+          About Us
+        </h1>
+        <p class="text-lg md:text-xl text-gray-200/95 max-w-3xl mx-auto">
           Learn more about our church, our mission, and our community.
         </p>
       </div>
     </div>
 
     <!-- Church Info Section -->
-    <section class="py-20 bg-white">
+    <section class="pt-24 lg:pt-28 pb-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Our <span class="text-blue-600">Mission</span>
             </h2>
-            <p class="text-lg text-gray-600 mb-4">
+            <div class="h-1 w-16 bg-blue-600 rounded mb-6"></div>
+            <p class="text-base md:text-lg text-gray-700 leading-8 mb-4">
               At {{ churchSettings.church_name }}, our mission is to glorify God
               by making disciples of Jesus Christ through worship, fellowship,
               and service to our community.
             </p>
-            <p class="text-lg text-gray-600 mb-4">
+            <p class="text-base md:text-lg text-gray-700 leading-8 mb-4">
               We believe in creating a welcoming environment where everyone can
               grow in their faith, build meaningful relationships, and discover
               their God-given purpose.
             </p>
-            <p class="text-lg text-gray-600">
+            <p class="text-base md:text-lg text-gray-700 leading-8">
               Our church is a place where you can come as you are, experience
               God's love, and be part of a caring community that supports you on
               your spiritual journey.
@@ -43,72 +51,14 @@
           </div>
 
           <div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-6">
-              Contact Information
-            </h3>
-            <div class="space-y-4">
-              <div class="flex items-start">
-                <svg
-                  class="w-6 h-6 text-blue-600 mr-3 mt-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                <div>
-                  <strong class="text-gray-900">Address:</strong>
-                  <p class="text-gray-600">
-                    {{ churchSettings.church_address }}
-                  </p>
-                </div>
-              </div>
-              <div class="flex items-start">
-                <svg
-                  class="w-6 h-6 text-blue-600 mr-3 mt-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
-                  />
-                </svg>
-                <div>
-                  <strong class="text-gray-900">Phone:</strong>
-                  <p class="text-gray-600">{{ churchSettings.church_phone }}</p>
-                </div>
-              </div>
-              <div class="flex items-start">
-                <svg
-                  class="w-6 h-6 text-blue-600 mr-3 mt-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
-                  />
-                  <path
-                    d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
-                  />
-                </svg>
-                <div>
-                  <strong class="text-gray-900">Email:</strong>
-                  <p class="text-gray-600">{{ churchSettings.church_email }}</p>
-                </div>
-              </div>
-            </div>
-
-            <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-6">
+            <h3 class="text-2xl font-bold text-gray-900 mt-0 mb-4">
               Service Times
             </h3>
             <div class="space-y-3">
               <div
                 v-for="service in serviceTimes"
                 :key="service.day"
-                class="bg-gray-50 p-4 rounded-lg"
+                class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm"
               >
                 <div class="flex justify-between items-center">
                   <div>
@@ -121,6 +71,46 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Values Section -->
+    <section class="py-20 bg-gradient-to-b from-white to-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Our <span class="text-blue-600">Values</span>
+          </h2>
+          <p class="text-gray-600 max-w-3xl mx-auto">
+            Gentle, welcoming, and Christ-centered—these shape everything we do.
+          </p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div
+            class="rounded-2xl border border-gray-100 bg-white/70 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition"
+          >
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Worship</h3>
+            <p class="text-gray-600">
+              We delight in God’s presence with reverence and joy.
+            </p>
+          </div>
+          <div
+            class="rounded-2xl border border-gray-100 bg-white/70 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition"
+          >
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Community</h3>
+            <p class="text-gray-600">
+              We care for one another with grace, humility, and love.
+            </p>
+          </div>
+          <div
+            class="rounded-2xl border border-gray-100 bg-white/70 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition"
+          >
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Service</h3>
+            <p class="text-gray-600">
+              We serve our city with compassion and generous hearts.
+            </p>
           </div>
         </div>
       </div>
@@ -202,14 +192,14 @@
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <button
-            @click="$emit('navigate', 'contact')"
-            class="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300"
+            @click="$router.push('/contact')"
+            class="bg-blue-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-700 transition duration-300 cursor-pointer"
           >
             Get Directions
           </button>
           <button
-            @click="$emit('navigate', 'services')"
-            class="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-600 hover:text-white transition duration-300"
+            @click="$router.push('/services')"
+            class="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-600 hover:text-white transition duration-300 cursor-pointer"
           >
             View Services
           </button>

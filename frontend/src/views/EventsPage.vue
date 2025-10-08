@@ -20,7 +20,7 @@
     </div>
 
     <!-- Events Section -->
-    <section class="py-20 bg-gray-50">
+    <section class="pt-24 lg:pt-28 pb-20 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           v-if="events.length > 0"
@@ -138,7 +138,7 @@
         </p>
         <button
           @click="$emit('navigate', 'contact')"
-          class="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 transform hover:scale-105"
+          class="bg-blue-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-700 transition duration-300 transform hover:scale-105 cursor-pointer"
         >
           Contact Us
         </button>
