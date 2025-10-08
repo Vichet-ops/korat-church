@@ -59,7 +59,7 @@ export default {
       navPages: [
         { id: 'home', name: 'Home' },
         { id: 'about', name: 'About' },
-        { id: 'services', name: 'Services' },
+        { id: 'our-ministries', name: 'Our Ministries' },
         { id: 'events', name: 'Events' },
         { id: 'contact', name: 'Contact' },
       ],

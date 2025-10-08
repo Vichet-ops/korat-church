@@ -28,29 +28,35 @@
 
         <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center space-x-2 ml-12">
-          <a
+          <router-link
             v-for="page in navPages"
             :key="page.id"
-            :href="'/' + (page.id === 'home' ? '' : page.id)"
-            :class="navClass(page.id)"
-            class="px-3 py-3 text-base font-medium transition duration-300 relative group"
+            :to="getRoutePath(page.id)"
+            :class="[
+              'px-3 py-3 text-base font-medium transition duration-300 relative group',
+              $route.path === getRoutePath(page.id)
+                ? 'text-blue-200'
+                : 'text-white hover:text-blue-200',
+            ]"
           >
             <span class="relative inline-block">
               {{ page.name }}
               <span
                 :class="
-                  currentPage === page.id ? 'w-full' : 'w-0 group-hover:w-full'
+                  $route.path === getRoutePath(page.id)
+                    ? 'w-full'
+                    : 'w-0 group-hover:w-full'
                 "
-                class="absolute -bottom-0.5 left-0 h-0.5 bg-white transition-all duration-300 ease-out"
+                class="absolute -bottom-0.5 left-0 h-0.5 bg-blue-200 transition-all duration-300 ease-out"
               ></span>
             </span>
-          </a>
-          <a
-            href="/give"
+          </router-link>
+          <router-link
+            to="/give"
             class="bg-blue-600 text-white px-4 py-2.5 rounded-md text-base font-medium hover:bg-blue-700 transition duration-300 shadow-md ml-2"
           >
             Give
-          </a>
+          </router-link>
         </div>
 
         <!-- Mobile menu button -->
@@ -96,11 +102,11 @@
         v-if="mobileMenuOpen"
         class="md:hidden absolute left-0 right-0 px-2 pt-2 pb-3 space-y-1 bg-[#0b1f3a] rounded-lg mt-4 shadow-lg border border-[#1b2f58] transition-all duration-300 z-50"
       >
-        <a
+        <router-link
           v-for="page in navPages"
           :key="page.id"
-          :href="'/' + (page.id === 'home' ? '' : page.id)"
-          :class="currentPage === page.id ? 'text-blue-200' : 'text-white'"
+          :to="getRoutePath(page.id)"
+          :class="mobileNavClass(page.id)"
           class="hover:text-blue-200 block px-3 py-2 text-base font-medium rounded-md transition duration-300 relative group"
           @click="$emit('toggle-mobile-menu')"
         >
@@ -113,14 +119,14 @@
               class="absolute -bottom-0.5 left-0 h-0.5 bg-blue-200 transition-all duration-300 ease-out"
             ></span>
           </span>
-        </a>
-        <a
-          href="/give"
+        </router-link>
+        <router-link
+          to="/give"
           class="bg-blue-600 text-white block px-3 py-2 text-base font-medium rounded-md hover:bg-blue-700 transition duration-300"
           @click="$emit('toggle-mobile-menu')"
         >
           Give
-        </a>
+        </router-link>
       </div>
     </div>
   </nav>
@@ -148,8 +154,26 @@ export default {
     },
   },
   methods: {
+    getRoutePath(pageId) {
+      const routeMap = {
+        home: '/',
+        about: '/about',
+        'our-ministries': '/our-ministries',
+        events: '/events',
+        contact: '/contact',
+        give: '/give',
+      };
+      return routeMap[pageId] || '/';
+    },
     navClass(pageId) {
-      return this.currentPage === pageId ? 'text-white' : 'text-gray-300';
+      const currentPath = this.$route.path;
+      const pagePath = this.getRoutePath(pageId);
+      return currentPath === pagePath ? 'text-white' : 'text-gray-300';
+    },
+    mobileNavClass(pageId) {
+      const currentPath = this.$route.path;
+      const pagePath = this.getRoutePath(pageId);
+      return currentPath === pagePath ? 'text-blue-200' : 'text-white';
     },
     onLogoClick() {
       if (window.location.pathname !== '/') {

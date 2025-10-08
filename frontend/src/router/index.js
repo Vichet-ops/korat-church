@@ -12,7 +12,7 @@ import GivePage from '../views/GivePage.vue';
 const routes = [
   { path: '/', name: 'home', component: HomePage },
   { path: '/about', name: 'about', component: AboutPage },
-  { path: '/services', name: 'services', component: ServicesPage },
+  { path: '/our-ministries', name: 'our-ministries', component: ServicesPage },
   { path: '/events', name: 'events', component: EventsPage },
   { path: '/gallery', name: 'gallery', component: GalleryPage },
   { path: '/contact', name: 'contact', component: ContactPage },

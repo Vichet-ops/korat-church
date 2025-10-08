@@ -2,32 +2,30 @@
   <div>
     <!-- Hero Section -->
     <div
-      class="relative h-64 md:h-80 lg:h-96 flex items-center justify-center"
+      class="relative h-64 md:h-80 lg:h-96 flex items-center justify-center pt-20 lg:pt-24 bg-cover bg-center"
       style="
         background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-          url('/images/bible_study.jpg') no-repeat center center;
+          url('/images/christmas_eve.jpg') no-repeat center 65%;
         background-size: cover;
       "
     >
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
-          Church Events
+        <h1 class="text-2xl md:text-4xl font-bold text-white mb-4 md:mb-6">
+          Our Church Events
         </h1>
-        <p class="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto">
+        <p class="text-base md:text-2xl text-gray-200 max-w-3xl mx-auto">
           Join us for special events, celebrations, and community gatherings.
         </p>
       </div>
     </div>
 
     <!-- Events Section -->
-    <section class="pt-24 lg:pt-28 pb-20 bg-gray-50">
+    <section class="pt-12 lg:pt-14 pb-10 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-          v-if="events.length > 0"
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
+        <!-- Show API events if available, otherwise show sample events -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div
-            v-for="(event, index) in events"
+            v-for="(event, index) in displayEvents"
             :key="event.id"
             class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
           >
@@ -43,22 +41,6 @@
               </h3>
               <p class="text-gray-600 mb-4">{{ event.description }}</p>
               <div class="space-y-2">
-                <div class="flex items-center text-gray-600">
-                  <svg
-                    class="w-5 h-5 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    ></path>
-                  </svg>
-                  <span>{{ formatDate(event.date) }}</span>
-                </div>
                 <div v-if="event.time" class="flex items-center text-gray-600">
                   <svg
                     class="w-5 h-5 mr-2"
@@ -75,69 +57,25 @@
                   </svg>
                   <span>{{ event.time }}</span>
                 </div>
-                <div
-                  v-if="event.location"
-                  class="flex items-center text-gray-600"
-                >
-                  <svg
-                    class="w-5 h-5 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    ></path>
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    ></path>
-                  </svg>
-                  <span>{{ event.location }}</span>
-                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div v-else class="text-center py-16">
-          <svg
-            class="mx-auto h-12 w-12 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
-          <h3 class="mt-2 text-xl font-medium text-gray-900">
-            No events scheduled
-          </h3>
-          <p class="mt-1 text-gray-500">Check back soon for upcoming events!</p>
         </div>
       </div>
     </section>
 
     <!-- Call to Action -->
-    <section class="py-20 bg-white">
+    <section class="py-10 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
           Stay <span class="text-blue-600">Connected</span>
         </h2>
-        <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+        <p class="text-base text-gray-600 mb-8 max-w-3xl mx-auto">
           Want to stay updated on upcoming events? Contact us to join our
           mailing list.
         </p>
         <button
-          @click="$emit('navigate', 'contact')"
+          @click="$router.push('/contact')"
           class="bg-blue-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-700 transition duration-300 transform hover:scale-105 cursor-pointer"
         >
           Contact Us
@@ -153,6 +91,74 @@ export default {
   props: {
     events: Array,
   },
+  data() {
+    return {
+      sampleEvents: [
+        {
+          id: 1,
+          title: 'Bible Study Group',
+          description:
+            "Deepen your understanding of God's word in our weekly Bible study sessions.",
+          date: '2024-01-16',
+          time: '7:00 PM',
+          location: 'Fellowship Hall',
+        },
+        {
+          id: 2,
+          title: 'Youth Fellowship',
+          description:
+            'A fun and engaging gathering for our youth community with games, discussions, and snacks.',
+          date: '2024-01-18',
+          time: '6:30 PM',
+          location: 'Youth Room',
+        },
+        {
+          id: 3,
+          title: 'Community Outreach',
+          description:
+            'Join us as we serve our local community through various outreach programs.',
+          date: '2024-01-20',
+          time: '9:00 AM',
+          location: 'Various Locations',
+        },
+        {
+          id: 4,
+          title: 'Prayer Meeting',
+          description:
+            'Come together in prayer for our church, community, and world.',
+          date: '2024-01-22',
+          time: '7:30 PM',
+          location: 'Prayer Room',
+        },
+        {
+          id: 5,
+          title: 'Christmas Celebration',
+          description:
+            'Join us for a beautiful Christmas service celebrating the birth of our Savior with traditional carols, nativity story, and fellowship.',
+          date: '2024-12-25',
+          time: '10:00 AM',
+          location: 'Main Sanctuary',
+        },
+        {
+          id: 6,
+          title: 'Easter Sunday Service',
+          description:
+            'Celebrate the resurrection of our Lord Jesus Christ with joyful worship, special music, and the message of hope and new life.',
+          date: '2024-03-31',
+          time: '10:00 AM',
+          location: 'Main Sanctuary',
+        },
+      ],
+    };
+  },
+  computed: {
+    displayEvents() {
+      // Show API events if available, otherwise show sample events
+      return this.events && this.events.length > 0
+        ? this.events
+        : this.sampleEvents;
+    },
+  },
   methods: {
     formatDate(dateString) {
       const date = new Date(dateString);
@@ -164,12 +170,12 @@ export default {
     },
     getEventImage(index) {
       const images = [
-        'christmas_eve.jpg',
-        'potluck.jpg',
         'bible_study.jpg',
-        'Annual Church Picnic.jpg',
+        'youths-fellowship.jpg',
+        'community-outreach.jpg',
+        'prayer-ministry.jpg',
         'Christmas Celebration.jpg',
-        'Easter Sunday Service.jpg',
+        'christmas_eve.jpg',
       ];
       return images[index % images.length];
     },

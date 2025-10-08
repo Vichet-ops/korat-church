@@ -27,17 +27,18 @@
           <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
           <ul class="space-y-2">
             <li>
-              <a
-                href="/about"
+              <router-link
+                to="/about"
+                @click="onNavClick('/about')"
                 class="text-sm text-gray-300 hover:text-white transition duration-300"
-                >About Us</a
+                >About Us</router-link
               >
             </li>
             <li>
-              <a
-                href="/services"
+              <router-link
+                to="/our-ministries"
                 class="text-sm text-gray-300 hover:text-white transition duration-300"
-                >Services</a
+                >Our Ministries</router-link
               >
             </li>
             <li>
@@ -163,6 +164,11 @@ export default {
         return;
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    onNavClick(path) {
+      if (this.$route && this.$route.path === path) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     },
   },
 };

@@ -27,20 +27,6 @@
         >
           Experience the love of Christ in our community.
         </p>
-        <div class="flex flex-col sm:flex-row gap-3 justify-center">
-          <a
-            href="/services"
-            class="inline-block bg-gray-700 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-gray-800 transition duration-300 transform hover:scale-105 cursor-pointer"
-          >
-            Join Our Services
-          </a>
-          <button
-            @click="$router.push('/about')"
-            class="border border-white text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-white hover:text-gray-900 transition duration-300 transform hover:scale-105 cursor-pointer"
-          >
-            Learn More
-          </button>
-        </div>
       </div>
     </div>
 
@@ -48,7 +34,7 @@
     <section class="py-20 relative bg-gray-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
             Welcome to Our <span class="text-blue-600">Faith Community</span>
           </h2>
           <p
@@ -93,7 +79,7 @@
                   rgba(0, 0, 0, 0.3),
                   rgba(0, 0, 0, 0.6)
                 ),
-                url('/images/potluck.jpg');
+                url('/images/community.jpg');
             "
           >
             <h3 class="text-2xl font-semibold text-white mb-4 drop-shadow-lg">
@@ -139,7 +125,7 @@
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-4xl mx-auto">
-          <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+          <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">
             Join Us for <span class="text-blue-300">Worship</span>
           </h2>
           <p class="text-xl text-gray-200 mb-8">
@@ -181,8 +167,8 @@
     <section class="py-20 bg-gray-100">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            Upcoming <span class="text-blue-600">Events</span>
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+            Our Church <span class="text-blue-600">Events</span>
           </h2>
           <p class="text-xl text-gray-600 max-w-3xl mx-auto">
             Join us for special events, celebrations, and community gatherings
@@ -226,8 +212,8 @@
 
         <div class="text-center mt-12">
           <button
-            @click="$emit('navigate', 'events')"
-            class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-white hover:text-blue-600 border-2 border-blue-600 hover:border-blue-600 transition duration-300 cursor-pointer"
+            @click="$router.push('/events')"
+            class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-white hover:text-blue-600 border border-blue-600 hover:border-blue-600 transition duration-300 cursor-pointer"
           >
             View All Events
           </button>
@@ -238,7 +224,7 @@
     <!-- Call to Action -->
     <section class="py-20 bg-gray-100">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
           Ready to Join Our <span class="text-blue-600">Community?</span>
         </h2>
         <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
@@ -247,13 +233,13 @@
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <button
-            @click="$emit('navigate', 'contact')"
+            @click="$router.push('/contact')"
             class="bg-blue-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-700 hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             Contact Us
           </button>
           <button
-            @click="$emit('navigate', 'about')"
+            @click="$router.push('/about')"
             class="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-600 hover:text-white hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             Learn More
@@ -266,7 +252,7 @@
     <section class="py-20 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             Recent <span class="text-blue-600">Photos</span>
           </h2>
           <p class="text-xl text-gray-600">Moments from our church community</p>
