@@ -1,6 +1,15 @@
-# Manage App
+# Muang Thai Korat Church Website
 
-A full-stack application with Go + Gin + GORM backend and Vue.js + Tailwind frontend, following clean architecture principles.
+A modern, full-stack church website with Go + Gin + GORM backend and Vue.js + Tailwind CSS frontend.
+
+## ✨ Features
+
+- 🏠 **Public Website** - Beautiful, responsive pages for home, about, events, gallery, contact, and giving
+- 📧 **Contact Form** - Working form with email notifications and database storage
+- 🔐 **Admin Authentication** - Secure JWT-based authentication system
+- 💬 **Message Management** - Admin panel to view and manage contact form submissions
+- 📱 **Mobile Responsive** - Optimized for all devices
+- 🎨 **Modern UI** - Built with Tailwind CSS v4.1
 
 ## 🏗️ Project Structure
 
@@ -33,18 +42,21 @@ manage/
 ## 🚀 Quick Start
 
 ### First Time Setup (New Developers)
+
 ```bash
 # Clone the repo and run setup once:
 make setup
 ```
 
 This will:
+
 - ✅ Copy `env.example` to `.env`
 - ✅ Start database
 - ✅ Run migrations
 - ✅ Seed initial data (when available)
 
 ### Daily Development
+
 ```bash
 # Start your development session:
 make up
@@ -54,26 +66,31 @@ make stop
 ```
 
 ### Access Your Application
+
 - **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:8080  
+- **Backend API**: http://localhost:8080
 - **Health Check**: http://localhost:8080/api/health
 - **API Documentation**: [API.md](./API.md)
 
 ## 🔧 Development
 
 ### Hot Reload
+
 Both frontend and backend support hot reload:
+
 - **Backend**: Uses Air for Go hot reload (watches `internal/` directory)
 - **Frontend**: Uses Vite dev server with hot reload
 - **Database**: PostgreSQL with persistent data
 
 ### Making Changes
+
 - Edit Go files in `internal/` - backend will restart automatically
 - Edit Vue files in `frontend/src/` - frontend will hot reload
 - Database changes persist in Docker volume
 - Use migrations for database schema changes
 
 ### Database Migrations
+
 ```bash
 # Create a new migration
 make db-create-migration name=create_users_table
@@ -86,6 +103,7 @@ make db-rollback
 ```
 
 ### Services
+
 - **postgres**: PostgreSQL database on port 5432
 - **backend**: Go API server on port 8080
 - **frontend**: Vue.js app on port 3000
@@ -95,16 +113,19 @@ make db-rollback
 ### Clean Architecture Layers
 
 1. **Controllers** (`internal/controllers/`)
+
    - Handle HTTP requests/responses
    - Input validation and serialization
    - Delegate business logic to services
 
 2. **Services** (`internal/services/`)
+
    - Business logic and validation
    - Orchestrate data operations
    - Independent of HTTP layer
 
 3. **Models** (`internal/models/`)
+
    - Data structures and database schema
    - GORM model definitions
 
@@ -115,13 +136,25 @@ make db-rollback
 
 ### API Endpoints
 
-- `GET /api/health` - Health check with database status
-- `GET /api/name` - Returns "Tyler" (legacy endpoint)
-- `GET /api/users` - Get all users
-- `POST /api/users` - Create new user
-- `GET /api/users/:id` - Get user by ID
+#### Public Endpoints
 
-See [API.md](./API.md) for detailed documentation.
+- `GET /api/health` - Health check with database status
+- `GET /api/home` - Home page data
+- `GET /api/about` - About page data
+- `GET /api/events` - Public events listing
+- `POST /api/contact/send` - Submit contact form
+- `POST /api/auth/login` - Admin login
+- `POST /api/auth/register` - Admin registration
+
+#### Protected Admin Endpoints (JWT Required)
+
+- `GET /api/admin/profile` - Get admin profile
+- `POST /api/admin/change-password` - Change password
+- `GET /api/admin/messages` - Get contact messages
+- `PATCH /api/admin/messages/:id/status` - Update message status
+- `DELETE /api/admin/messages/:id` - Delete message
+
+See [QUICK_START_GUIDE.md](./QUICK_START_GUIDE.md) for detailed usage.
 
 ## 🛠️ Tech Stack
 

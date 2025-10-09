@@ -25,6 +25,17 @@ services:
       - DATABASE_URL=${DATABASE_URL:-postgres://postgres:postgres@postgres:5432/manage?sslmode=disable}
       - PORT=${PORT:-8080}
       - GIN_MODE=${GIN_MODE:-debug}
+      - APP_NAME=${APP_NAME:-Church Management System}
+      - CHURCH_NAME=${CHURCH_NAME:-Muang Thai Korat Church}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - SMTP_FROM=${SMTP_FROM}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - JWT_SECRET=${JWT_SECRET:-change-this-to-a-secure-random-string-in-production}
+      - JWT_EXPIRATION=${JWT_EXPIRATION:-24h}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3000}
     volumes:
       - .:/app
       - /app/tmp

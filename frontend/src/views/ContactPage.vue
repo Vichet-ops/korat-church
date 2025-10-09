@@ -2,22 +2,22 @@
   <div>
     <!-- Hero Section -->
     <div
-      class="relative h-64 md:h-80 lg:h-96 flex items-center justify-center"
+      class="relative h-96 md:h-[500px] lg:h-[600px] flex items-center justify-center pt-24 lg:pt-32 bg-[position:center_50%] md:bg-[position:center_40%] lg:bg-[position:center_45%]"
       style="
-        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-          url('/images/church_building_1.jpg') no-repeat center center;
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+          url('/images/contact-us.png') no-repeat center center;
         background-size: cover;
       "
     >
       <div
-        class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center translate-y-6 md:translate-y-8"
+        class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center h-full"
       >
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4 text-center">
+        <h1
+          class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4"
+        >
           Contact Us
         </h1>
-        <p
-          class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto text-center"
-        >
+        <p class="text-lg md:text-xl text-gray-200/95 max-w-3xl mx-auto">
           We'd love to hear from you. Get in touch with us today!
         </p>
       </div>
@@ -29,7 +29,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
           <!-- Contact Information -->
           <div>
-            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+            <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-4">
               Get In Touch
             </h2>
             <p class="text-gray-600 mb-8">
@@ -149,7 +149,7 @@
 
           <!-- Contact Form -->
           <div class="bg-gray-50 p-8 rounded-lg">
-            <h3 class="text-2xl font-bold text-gray-900 mb-6">
+            <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-6">
               Send us a Message
             </h3>
             <form @submit.prevent="sendMessage" class="space-y-6">
@@ -161,7 +161,7 @@
                   v-model="contactForm.name"
                   type="text"
                   required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none"
                   placeholder="Your name"
                 />
               </div>
@@ -174,7 +174,7 @@
                   v-model="contactForm.email"
                   type="email"
                   required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
                   placeholder="your@email.com"
                 />
               </div>
@@ -187,7 +187,7 @@
                   v-model="contactForm.subject"
                   type="text"
                   required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
                   placeholder="Message subject"
                 />
               </div>
@@ -200,14 +200,14 @@
                   v-model="contactForm.message"
                   rows="5"
                   required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
                   placeholder="Your message"
                 ></textarea>
               </div>
 
               <button
                 type="submit"
-                class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+                class="w-full border border-blue-600 text-blue-600 py-3 px-6 rounded-lg font-semibold hover:bg-blue-600 hover:text-white outline-none transition duration-300 cursor-pointer"
               >
                 Send Message
               </button>
@@ -227,10 +227,10 @@
     <section class="py-20 bg-gray-100">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+          <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-6">
             Visit <span class="text-blue-600">Us</span>
           </h2>
-          <p class="text-xl text-gray-600">
+          <p class="text-sm text-gray-600">
             We're located in the heart of Nakhon Ratchasima and would love to
             see you!
           </p>
@@ -280,13 +280,39 @@ export default {
   },
   methods: {
     async sendMessage() {
-      // TODO: Implement actual message sending logic
-      console.log('Sending message:', this.contactForm);
-      this.messageSent = true;
-      setTimeout(() => {
-        this.messageSent = false;
-        this.contactForm = { name: '', email: '', subject: '', message: '' };
-      }, 3000);
+      try {
+        // Get API URL from environment or use default
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8081';
+
+        // Send message to backend
+        const response = await fetch(`${apiUrl}/api/contact/send`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(this.contactForm),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to send message');
+        }
+
+        // Show success message
+        this.messageSent = true;
+
+        // Reset form after delay
+        setTimeout(() => {
+          this.messageSent = false;
+          this.contactForm = { name: '', email: '', subject: '', message: '' };
+        }, 5000);
+      } catch (error) {
+        console.error('Error sending message:', error);
+        alert(
+          'Sorry, there was an error sending your message. Please try again or contact us directly.'
+        );
+      }
     },
   },
   computed: {

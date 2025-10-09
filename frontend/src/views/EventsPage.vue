@@ -2,18 +2,22 @@
   <div>
     <!-- Hero Section -->
     <div
-      class="relative h-64 md:h-80 lg:h-96 flex items-center justify-center pt-20 lg:pt-24 bg-cover bg-center"
+      class="relative h-96 md:h-[500px] lg:h-[600px] flex items-center justify-center pt-24 lg:pt-32"
       style="
         background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
           url('/images/christmas_eve.jpg') no-repeat center 65%;
         background-size: cover;
       "
     >
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-2xl md:text-4xl font-bold text-white mb-4 md:mb-6">
+      <div
+        class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center h-full"
+      >
+        <h1
+          class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4"
+        >
           Our Church Events
         </h1>
-        <p class="text-base md:text-2xl text-gray-200 max-w-3xl mx-auto">
+        <p class="text-lg md:text-xl text-gray-200/95 max-w-3xl mx-auto">
           Join us for special events, celebrations, and community gatherings.
         </p>
       </div>
@@ -171,10 +175,8 @@ export default {
     getEventImage(index) {
       const images = [
         'bible_study.jpg',
-        'youths-fellowship.jpg',
         'community-outreach.jpg',
         'prayer-ministry.jpg',
-        'Christmas Celebration.jpg',
         'christmas_eve.jpg',
       ];
       return images[index % images.length];

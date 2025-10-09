@@ -54,6 +54,18 @@ func (cc *ChurchController) GetAboutData(c *gin.Context) {
 	var settings models.ChurchSettings
 	cc.db.First(&settings)
 
+	// If no settings exist, create default
+	if settings.ID == 0 {
+		settings = models.ChurchSettings{
+			ChurchName:    "Muang Thai Korat Church",
+			ChurchAddress: "123 Main St, Nakhon Ratchasima, Thailand 30000",
+			ChurchPhone:   "(555) 123-4567",
+			ChurchEmail:   "info@muangthaikoratchurch.com",
+			ServiceTimes:  `[{"day":"Sunday","time":"10:00 AM","service":"Main Worship Service"},{"day":"Wednesday","time":"7:00 PM","service":"Bible Study & Prayer"},{"day":"Friday","time":"6:30 PM","service":"Youth Activities & Fellowship"}]`,
+		}
+		cc.db.Create(&settings)
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"settings": settings,
 	})
@@ -66,8 +78,25 @@ func (cc *ChurchController) GetEvents(c *gin.Context) {
 		Order("date ASC").
 		Find(&events)
 
+	// Get church settings for footer
+	var settings models.ChurchSettings
+	cc.db.First(&settings)
+
+	// If no settings exist, create default
+	if settings.ID == 0 {
+		settings = models.ChurchSettings{
+			ChurchName:    "Muang Thai Korat Church",
+			ChurchAddress: "123 Main St, Nakhon Ratchasima, Thailand 30000",
+			ChurchPhone:   "(555) 123-4567",
+			ChurchEmail:   "info@muangthaikoratchurch.com",
+			ServiceTimes:  `[{"day":"Sunday","time":"10:00 AM","service":"Main Worship Service"},{"day":"Wednesday","time":"7:00 PM","service":"Bible Study & Prayer"},{"day":"Friday","time":"6:30 PM","service":"Youth Activities & Fellowship"}]`,
+		}
+		cc.db.Create(&settings)
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"events": events,
+		"events":   events,
+		"settings": settings,
 	})
 }
 
@@ -75,6 +104,18 @@ func (cc *ChurchController) GetEvents(c *gin.Context) {
 func (cc *ChurchController) GetContactData(c *gin.Context) {
 	var settings models.ChurchSettings
 	cc.db.First(&settings)
+
+	// If no settings exist, create default
+	if settings.ID == 0 {
+		settings = models.ChurchSettings{
+			ChurchName:    "Muang Thai Korat Church",
+			ChurchAddress: "123 Main St, Nakhon Ratchasima, Thailand 30000",
+			ChurchPhone:   "(555) 123-4567",
+			ChurchEmail:   "info@muangthaikoratchurch.com",
+			ServiceTimes:  `[{"day":"Sunday","time":"10:00 AM","service":"Main Worship Service"},{"day":"Wednesday","time":"7:00 PM","service":"Bible Study & Prayer"},{"day":"Friday","time":"6:30 PM","service":"Youth Activities & Fellowship"}]`,
+		}
+		cc.db.Create(&settings)
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"settings": settings,

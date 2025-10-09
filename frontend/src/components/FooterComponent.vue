@@ -37,29 +37,33 @@
             <li>
               <router-link
                 to="/our-ministries"
+                @click="onNavClick('/our-ministries')"
                 class="text-sm text-gray-300 hover:text-white transition duration-300"
                 >Our Ministries</router-link
               >
             </li>
             <li>
-              <a
-                href="/events"
+              <router-link
+                to="/events"
+                @click="onNavClick('/events')"
                 class="text-sm text-gray-300 hover:text-white transition duration-300"
-                >Events</a
+                >Events</router-link
               >
             </li>
             <li>
-              <a
-                href="/contact"
+              <router-link
+                to="/contact"
+                @click="onNavClick('/contact')"
                 class="text-sm text-gray-300 hover:text-white transition duration-300"
-                >Contact</a
+                >Contact</router-link
               >
             </li>
             <li>
-              <a
-                href="/give"
+              <router-link
+                to="/give"
+                @click="onNavClick('/give')"
                 class="text-sm text-gray-300 hover:text-white transition duration-300"
-                >Give</a
+                >Give</router-link
               >
             </li>
           </ul>
@@ -85,7 +89,7 @@
                 :href="googleMapsLink"
                 target="_blank"
                 rel="noopener"
-                class="hover:text-white underline-offset-2 hover:underline"
+                class="text-blue-400 hover:text-blue-300 underline-offset-2 hover:underline"
               >
                 {{ churchSettings.church_address }}
               </a>

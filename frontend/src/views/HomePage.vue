@@ -191,8 +191,8 @@
                 index === 0
                   ? 'christmas_eve.jpg'
                   : index === 1
-                  ? 'potluck.jpg'
-                  : 'bible_study.jpg'
+                  ? 'bible_study.jpg'
+                  : 'community.jpg'
               }')`"
             ></div>
             <div class="p-6">
@@ -234,7 +234,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             @click="$router.push('/contact')"
-            class="bg-blue-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-700 hover:shadow-lg transition-all duration-300 cursor-pointer"
+            class="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-600 hover:text-white hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             Contact Us
           </button>
@@ -326,9 +326,9 @@
         <div class="text-center mt-12">
           <button
             @click="$router.push('/gallery')"
-            class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-xl cursor-pointer"
+            class="text-blue-600 cursor-pointer underline hover:text-blue-800 transition-colors duration-300"
           >
-            View All Photos →
+            View All Photos
           </button>
         </div>
       </div>

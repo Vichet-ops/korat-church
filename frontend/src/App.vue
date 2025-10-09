@@ -1,7 +1,8 @@
 <template>
   <div id="app" class="min-h-screen bg-gray-50">
-    <!-- Navigation -->
+    <!-- Navigation (hidden on admin pages) -->
     <NavbarComponent
+      v-if="!isAdminRoute"
       :church-name="displayChurchName"
       :nav-pages="navPages"
       :current-page="currentPage"
@@ -21,8 +22,9 @@
       </router-view>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer (hidden on admin pages) -->
     <FooterComponent
+      v-if="!isAdminRoute"
       :church-name="displayChurchName"
       :church-settings="churchSettings"
     />
@@ -73,6 +75,9 @@ export default {
         'Muang Thai Korat Church'
       );
     },
+    isAdminRoute() {
+      return this.$route.path.startsWith('/admin');
+    },
   },
   methods: {
     async loadPageData() {
@@ -92,8 +97,17 @@ export default {
           this.parseServiceTimes();
         } else if (page === 'events') {
           this.events = response.data.events || [];
+          this.churchSettings = response.data.settings || {};
+          this.churchName = this.churchSettings.church_name || this.churchName;
         } else if (page === 'contact') {
           this.churchSettings = response.data.settings || {};
+        } else {
+          // For all other pages (gallery, give, our-ministries), load settings
+          if (response.data.settings) {
+            this.churchSettings = response.data.settings || {};
+            this.churchName =
+              this.churchSettings.church_name || this.churchName;
+          }
         }
       } catch (error) {
         console.error(`Error loading ${this.currentPage} data:`, error);

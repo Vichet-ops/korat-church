@@ -2,18 +2,22 @@
   <div>
     <!-- Hero Section -->
     <div
-      class="relative h-64 md:h-80 lg:h-96 flex items-center justify-center mt-20 lg:mt-24"
+      class="relative h-96 md:h-[500px] lg:h-[600px] flex items-center justify-center pt-24 lg:pt-32"
       style="
         background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-          url('/images/worship.jpg') no-repeat center center;
+          url('/images/our-ministries.jpg') no-repeat center center;
         background-size: cover;
       "
     >
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-2xl md:text-3xl font-bold text-white mb-6">
+      <div
+        class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center h-full"
+      >
+        <h1
+          class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4"
+        >
           Our Ministries
         </h1>
-        <p class="text-base md:text-2xl text-gray-200 max-w-3xl mx-auto">
+        <p class="text-lg md:text-xl text-gray-200/95 max-w-3xl mx-auto">
           Join us for worship, fellowship, and spiritual growth. Find your place
           in our community where faith comes alive through meaningful
           connections, inspiring worship, and opportunities to serve others in

@@ -2,18 +2,22 @@
   <div>
     <!-- Hero Section -->
     <div
-      class="relative h-64 md:h-80 lg:h-96 flex items-center justify-center"
+      class="relative h-96 md:h-[500px] lg:h-[600px] flex items-center justify-center pt-24 lg:pt-32"
       style="
         background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
           url('/images/give.jpg') no-repeat center center;
         background-size: cover;
       "
     >
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+      <div
+        class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center h-full"
+      >
+        <h1
+          class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4"
+        >
           Support Our Ministry
         </h1>
-        <p class="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto">
+        <p class="text-lg md:text-xl text-gray-200/95 max-w-3xl mx-auto">
           Your generous giving enables us to serve our community and spread
           God's love through various ministries and outreach programs.
         </p>
@@ -36,7 +40,7 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <!-- Support Our Mission -->
           <div
-            class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl shadow-lg p-8 text-center hover:shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-red-200"
+            class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl shadow-lg p-8 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-2 border-red-200"
           >
             <div
               class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"
@@ -66,7 +70,7 @@
 
           <!-- Community Outreach -->
           <div
-            class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-lg p-8 text-center hover:shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-green-200"
+            class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-lg p-8 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-2 border-green-200"
           >
             <div
               class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"
@@ -96,7 +100,7 @@
 
           <!-- Church Operations -->
           <div
-            class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-lg p-8 text-center hover:shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-blue-200"
+            class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-lg p-8 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-2 border-blue-200"
           >
             <div
               class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"
@@ -126,7 +130,7 @@
 
           <!-- Youth & Education -->
           <div
-            class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-lg p-8 text-center hover:shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-purple-200"
+            class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-lg p-8 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-2 border-purple-200"
           >
             <div
               class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg"
@@ -366,7 +370,7 @@
         </p>
         <button
           @click="$emit('navigate', 'contact')"
-          class="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-600 hover:text-white transition duration-300 transform hover:scale-105 cursor-pointer"
+          class="border-1 border-blue-600 text-blue-600 px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-600 hover:text-white transition duration-300 transform hover:scale-105 cursor-pointer"
         >
           Contact Us
         </button>

@@ -2,17 +2,16 @@
   <div>
     <!-- Hero Section -->
     <div
-      class="relative h-64 md:h-80 lg:h-96 flex items-center justify-center pt-20 lg:pt-24"
+      class="relative h-96 md:h-[500px] lg:h-[600px] flex items-center justify-center pt-24 lg:pt-32 bg-[position:center_50%] md:bg-[position:center_40%] lg:bg-[position:center_30%] lg:bg-[length:120%_auto]"
       style="
-        background: linear-gradient(
-            rgba(11, 31, 58, 0.45),
-            rgba(27, 47, 88, 0.55)
-          ),
-          url('/images/church_building_1.jpg') no-repeat center center;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url('/images/community.jpg') no-repeat center 30%;
         background-size: cover;
       "
     >
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div
+        class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center h-full"
+      >
         <h1
           class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4"
         >
@@ -25,7 +24,7 @@
     </div>
 
     <!-- Church Info Section -->
-    <section class="pt-16 lg:pt-16 pb-6 bg-white">
+    <section class="pt-16 lg:pt-16 pb-12 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
           <h2
@@ -58,7 +57,7 @@
     </section>
 
     <!-- Our Values Section -->
-    <section class="py-6 bg-gradient-to-b from-white to-gray-50">
+    <section class="py-12 bg-gradient-to-b from-white to-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
           <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
@@ -69,7 +68,7 @@
             Gentle, welcoming, and Christ-centered—these shape everything we do.
           </p>
         </div>
-        <div class="grid md:grid-cols-3 gap-1 md:gap-3 p-3 md:p-4">
+        <div class="grid md:grid-cols-3 gap-4 md:gap-6 p-3 md:p-4">
           <div
             class="rounded-2xl border border-gray-100 bg-white/70 backdrop-blur-sm shadow-sm p-2"
           >
@@ -99,7 +98,7 @@
     </section>
 
     <!-- What We Believe Section -->
-    <section class="py-6 bg-gray-50">
+    <section class="py-12 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-2">
           <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">
@@ -111,7 +110,7 @@
           </p>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4 p-4">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 p-4">
           <div class="bg-white p-2 rounded-lg shadow-sm">
             <h3 class="text-xl font-bold text-gray-900 mb-3">The Bible</h3>
             <p class="text-gray-600">
@@ -164,7 +163,7 @@
     </section>
 
     <!-- Call to Action -->
-    <section class="py-6 bg-white">
+    <section class="py-12 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">
           Visit Us <span class="text-blue-600">This Sunday</span>
@@ -177,7 +176,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             @click="$router.push('/contact')"
-            class="bg-blue-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-700 transition duration-300 cursor-pointer"
+            class="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-600 hover:text-white transition duration-300 cursor-pointer"
           >
             Get Directions
           </button>
