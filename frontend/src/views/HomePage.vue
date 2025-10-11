@@ -363,8 +363,6 @@ export default {
   data() {
     return {
       welcomeCardsVisible: false,
-      currentPhotoIndex: 0,
-      autoPlayInterval: null,
       recentPhotos: [
         {
           src: '/images/gallery/482960224_1003870451838173_3546241293535029221_n.jpg',
@@ -556,10 +554,6 @@ export default {
   },
   mounted() {
     this.setupIntersectionObserver();
-    this.startAutoPlay();
-  },
-  beforeUnmount() {
-    this.stopAutoPlay();
   },
   methods: {
     setupIntersectionObserver() {
@@ -579,32 +573,6 @@ export default {
       if (welcomeSection) {
         observer.observe(welcomeSection);
       }
-    },
-    nextPhoto() {
-      this.currentPhotoIndex =
-        (this.currentPhotoIndex + 1) % this.recentPhotos.length;
-      this.resetAutoPlay();
-    },
-    previousPhoto() {
-      this.currentPhotoIndex =
-        this.currentPhotoIndex === 0
-          ? this.recentPhotos.length - 1
-          : this.currentPhotoIndex - 1;
-      this.resetAutoPlay();
-    },
-    startAutoPlay() {
-      this.autoPlayInterval = setInterval(() => {
-        this.nextPhoto();
-      }, 5000); // Change photo every 5 seconds
-    },
-    stopAutoPlay() {
-      if (this.autoPlayInterval) {
-        clearInterval(this.autoPlayInterval);
-      }
-    },
-    resetAutoPlay() {
-      this.stopAutoPlay();
-      this.startAutoPlay();
     },
   },
 };
@@ -632,27 +600,5 @@ export default {
 
 .welcome-card:nth-child(3) {
   transition-delay: 0.5s;
-}
-
-/* Hover effects */
-.welcome-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  transition: all 0.3s ease;
-}
-
-.welcome-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0);
-  transition: background 0.3s ease;
-  pointer-events: none;
-}
-
-.welcome-card:hover::before {
-  background: rgba(255, 255, 255, 0.05);
 }
 </style>
