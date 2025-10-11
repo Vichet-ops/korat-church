@@ -4,41 +4,93 @@
     <div
       class="relative min-h-screen flex items-center justify-center"
       style="
-        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
           url('/images/church_building_1.jpg') no-repeat center center;
         background-size: cover;
       "
     >
       <!-- Hero Content -->
       <div class="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl md:text-5xl font-bold mb-6 leading-tight">
+        <h1
+          class="text-2xl md:text-4xl font-bold mb-4 leading-tight text-gray-200"
+          style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5)"
+        >
           Welcome to
-          <span class="text-blue-300 text-4xl md:text-6xl">{{
-            churchSettings.church_name || 'Muang Thai Korat Church'
-          }}</span>
+        </h1>
+        <h1
+          class="text-5xl md:text-7xl xl:text-8xl font-extrabold mb-6 leading-tight text-white"
+          style="text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6)"
+        >
+          {{ churchSettings.church_name || 'Muang Thai Korat Church' }}
         </h1>
         <p
-          class="text-xl md:text-2xl text-gray-200 mb-2 max-w-3xl mx-auto leading-relaxed"
+          class="text-xl md:text-2xl text-white mb-3 max-w-3xl mx-auto leading-relaxed"
         >
           Join us in worship, fellowship, and growing together in faith.
         </p>
         <p
-          class="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed"
+          class="text-xl md:text-2xl text-white mb-12 max-w-3xl mx-auto leading-relaxed"
         >
           Experience the love of Christ in our community.
         </p>
+
+        <!-- Call to Action Links -->
+        <div
+          class="flex flex-col sm:flex-row gap-4 sm:gap-8 justify-center items-center"
+        >
+          <a
+            @click="$router.push('/contact')"
+            class="group text-white text-base md:text-lg cursor-pointer flex items-center gap-2 hover:text-blue-400 transition-all duration-300"
+          >
+            <span>Plan Your Visit</span>
+            <svg
+              class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </a>
+          <a
+            @click="$router.push('/about')"
+            class="group text-white text-base md:text-lg cursor-pointer flex items-center gap-2 hover:text-blue-400 transition-all duration-300"
+          >
+            <span>Learn More</span>
+            <svg
+              class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
 
     <!-- Welcome Section -->
-    <section class="py-20 relative bg-gray-200">
+    <section class="py-20 relative bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
+          <h2
+            class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6"
+          >
             Welcome to Our <span class="text-blue-600">Faith Community</span>
           </h2>
           <p
-            class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-16"
+            class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed mb-16"
           >
             Join us in worship, fellowship, and growing together in faith.
             <br />
@@ -53,7 +105,7 @@
         >
           <div
             :class="['welcome-card', { visible: welcomeCardsVisible }]"
-            class="relative text-center p-8 rounded-lg shadow-md transition-shadow duration-300 ease-out hover:shadow-xl overflow-hidden bg-cover bg-center min-h-[300px] flex flex-col justify-end"
+            class="relative text-center p-8 rounded-lg shadow-lg transition-shadow duration-300 ease-out hover:shadow-xl overflow-hidden bg-cover bg-center min-h-[300px] flex flex-col justify-end"
             style="
               background-image: linear-gradient(
                   rgba(0, 0, 0, 0.3),
@@ -73,7 +125,7 @@
 
           <div
             :class="['welcome-card', { visible: welcomeCardsVisible }]"
-            class="relative text-center p-8 rounded-lg shadow-md transition-shadow duration-300 ease-out hover:shadow-xl overflow-hidden bg-cover bg-center min-h-[300px] flex flex-col justify-end"
+            class="relative text-center p-8 rounded-lg shadow-lg transition-shadow duration-300 ease-out hover:shadow-xl overflow-hidden bg-cover bg-center min-h-[300px] flex flex-col justify-end"
             style="
               background-image: linear-gradient(
                   rgba(0, 0, 0, 0.3),
@@ -93,7 +145,7 @@
 
           <div
             :class="['welcome-card', { visible: welcomeCardsVisible }]"
-            class="relative text-center p-8 rounded-lg shadow-md transition-shadow duration-300 ease-out hover:shadow-xl overflow-hidden bg-cover bg-center min-h-[300px] flex flex-col justify-end"
+            class="relative text-center p-8 rounded-lg shadow-lg transition-shadow duration-300 ease-out hover:shadow-xl overflow-hidden bg-cover bg-center min-h-[300px] flex flex-col justify-end"
             style="
               background-image: linear-gradient(
                   rgba(0, 0, 0, 0.3),
@@ -125,7 +177,9 @@
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-4xl mx-auto">
-          <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">
+          <h2
+            class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+          >
             Join Us for <span class="text-blue-300">Worship</span>
           </h2>
           <p class="text-xl text-gray-200 mb-8">
@@ -137,7 +191,7 @@
             <div
               v-for="service in serviceTimes"
               :key="service.day"
-              class="text-center p-6 bg-white/20 backdrop-blur-sm rounded-xl shadow-sm transition-all duration-200 ease-out hover:shadow-md hover:scale-102 border border-white/30"
+              class="text-center p-6 bg-white/20 backdrop-blur-sm rounded-xl shadow-sm transition-shadow duration-200 ease-out hover:shadow-md border border-white/30"
             >
               <h4 class="text-xl font-semibold text-white mb-2 drop-shadow-md">
                 {{ service.day }} {{ service.service }}
@@ -164,10 +218,12 @@
     </section>
 
     <!-- Events Section -->
-    <section class="py-20 bg-gray-100">
+    <section class="py-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+          <h2
+            class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6"
+          >
             Our Church <span class="text-blue-600">Events</span>
           </h2>
           <p class="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -222,9 +278,11 @@
     </section>
 
     <!-- Call to Action -->
-    <section class="py-20 bg-gray-100">
+    <section class="py-20 bg-blue-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+        <h2
+          class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6"
+        >
           Ready to Join Our <span class="text-blue-600">Community?</span>
         </h2>
         <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
@@ -249,77 +307,35 @@
     </section>
 
     <!-- Recent Photos Carousel Section -->
-    <section class="py-20 bg-gray-50">
+    <section class="py-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+          <h2
+            class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4"
+          >
             Recent <span class="text-blue-600">Photos</span>
           </h2>
           <p class="text-xl text-gray-600">Moments from our church community</p>
         </div>
 
-        <!-- Carousel Container -->
-        <div class="relative max-w-4xl mx-auto">
-          <!-- Carousel Images -->
+        <!-- Photo Grid Gallery -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <div
-            class="relative h-64 md:h-80 rounded-2xl overflow-hidden shadow-2xl"
+            v-for="(photo, index) in recentPhotos.slice(0, 8)"
+            :key="index"
+            class="relative aspect-square overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer"
+            @click="$router.push('/gallery')"
           >
+            <img
+              :src="photo.src"
+              :alt="photo.alt"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <!-- Hover Overlay -->
             <div
-              v-for="(photo, index) in recentPhotos"
-              :key="index"
-              class="absolute inset-0 transition-all duration-1000 ease-in-out cursor-pointer"
-              :class="
-                currentPhotoIndex === index
-                  ? 'opacity-100 scale-100'
-                  : 'opacity-0 scale-105'
-              "
-              @click="$emit('navigate', 'gallery')"
-            >
-              <img
-                :src="photo.src"
-                :alt="photo.alt"
-                class="w-full h-full object-contain hover:scale-105 transition-transform duration-700"
-              />
-            </div>
+              class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300"
+            ></div>
           </div>
-
-          <!-- Navigation Arrows -->
-          <button
-            @click="previousPhoto"
-            class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 cursor-pointer"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 19l-7-7 7-7"
-              ></path>
-            </svg>
-          </button>
-          <button
-            @click="nextPhoto"
-            class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 cursor-pointer"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              ></path>
-            </svg>
-          </button>
         </div>
 
         <!-- View All Button -->

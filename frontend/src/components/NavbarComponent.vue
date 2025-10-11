@@ -1,10 +1,10 @@
 <template>
   <nav
-    class="fixed top-0 left-0 w-full z-50 bg-gradient-to-b from-[#0b1f3a] to-[#1b2f58] shadow-lg border-b border-white/10 transition-all duration-300"
+    class="fixed top-0 left-0 w-full z-50 bg-[#0f2744] shadow-lg border-b border-white/10 transition-all duration-300"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div
-        class="flex justify-between items-center h-20 lg:h-24 transition-all duration-300"
+        class="flex justify-between items-center h-24 lg:h-28 transition-all duration-300"
       >
         <!-- Logo -->
         <div class="flex items-center">
@@ -16,10 +16,10 @@
             <img
               src="/images/cross-logo.png"
               alt="Muang Thai Korat Church Logo"
-              class="h-12 lg:h-16 w-auto"
+              class="h-14 lg:h-24 w-auto"
             />
             <span
-              class="ml-2 text-white font-semibold text-base lg:text-lg whitespace-nowrap"
+              class="ml-2 text-white font-semibold text-base lg:text-xl whitespace-nowrap"
             >
               {{ churchName }}
             </span>
@@ -35,8 +35,8 @@
             :class="[
               'px-3 py-3 text-base font-medium transition duration-300 relative group',
               $route.path === getRoutePath(page.id)
-                ? 'text-blue-200'
-                : 'text-white hover:text-blue-200',
+                ? 'text-blue-400'
+                : 'text-white hover:text-blue-400',
             ]"
           >
             <span class="relative inline-block">
@@ -47,7 +47,7 @@
                     ? 'w-full'
                     : 'w-0 group-hover:w-full'
                 "
-                class="absolute -bottom-0.5 left-0 h-0.5 bg-blue-200 transition-all duration-300 ease-out"
+                class="absolute -bottom-0.5 left-0 h-0.5 bg-blue-400 transition-all duration-300 ease-out"
               ></span>
             </span>
           </router-link>
@@ -100,14 +100,14 @@
       <!-- Mobile Navigation Menu -->
       <div
         v-if="mobileMenuOpen"
-        class="md:hidden absolute left-0 right-0 px-2 pt-2 pb-3 space-y-1 bg-[#0b1f3a] rounded-lg mt-4 shadow-lg border border-[#1b2f58] transition-all duration-300 z-50"
+        class="md:hidden absolute left-0 right-0 px-2 pt-2 pb-3 space-y-1 bg-[#0f2744] rounded-lg mt-4 shadow-lg border border-[#1a3a5c] transition-all duration-300 z-50"
       >
         <router-link
           v-for="page in navPages"
           :key="page.id"
           :to="getRoutePath(page.id)"
           :class="mobileNavClass(page.id)"
-          class="hover:text-blue-200 block px-3 py-2 text-base font-medium rounded-md transition duration-300 relative group"
+          class="hover:text-blue-400 block px-3 py-2 text-base font-medium rounded-md transition duration-300 relative group"
           @click="$emit('toggle-mobile-menu')"
         >
           <span class="relative inline-block">
@@ -116,7 +116,7 @@
               :class="
                 currentPage === page.id ? 'w-full' : 'w-0 group-hover:w-full'
               "
-              class="absolute -bottom-0.5 left-0 h-0.5 bg-blue-200 transition-all duration-300 ease-out"
+              class="absolute -bottom-0.5 left-0 h-0.5 bg-blue-400 transition-all duration-300 ease-out"
             ></span>
           </span>
         </router-link>
@@ -173,7 +173,7 @@ export default {
     mobileNavClass(pageId) {
       const currentPath = this.$route.path;
       const pagePath = this.getRoutePath(pageId);
-      return currentPath === pagePath ? 'text-blue-200' : 'text-white';
+      return currentPath === pagePath ? 'text-blue-400' : 'text-white';
     },
     onLogoClick() {
       if (window.location.pathname !== '/') {

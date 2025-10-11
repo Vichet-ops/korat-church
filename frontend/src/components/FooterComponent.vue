@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-gray-900 text-white py-12">
+  <footer class="bg-[#0f2744] text-white py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <!-- Church Info -->
@@ -13,7 +13,7 @@
               <img
                 src="/images/cross-logo.png"
                 alt="Muang Thai Korat Church Logo"
-                class="h-12 w-auto mr-3"
+                class="h-14 w-auto mr-3"
               />
               <h3 class="text-base lg:text-lg font-semibold text-white">
                 {{ churchName }}
