@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 // Public Views
 import HomePage from '../views/HomePage.vue';
 import AboutPage from '../views/AboutPage.vue';
-import ServicesPage from '../views/ServicesPage.vue';
+import MinistriesPage from '../views/MinistriesPage.vue';
 import EventsPage from '../views/EventsPage.vue';
 import GalleryPage from '../views/GalleryPage.vue';
 import ContactPage from '../views/ContactPage.vue';
@@ -19,7 +19,11 @@ const routes = [
   // Public Routes
   { path: '/', name: 'home', component: HomePage },
   { path: '/about', name: 'about', component: AboutPage },
-  { path: '/our-ministries', name: 'our-ministries', component: ServicesPage },
+  {
+    path: '/our-ministries',
+    name: 'our-ministries',
+    component: MinistriesPage,
+  },
   { path: '/events', name: 'events', component: EventsPage },
   { path: '/gallery', name: 'gallery', component: GalleryPage },
   { path: '/contact', name: 'contact', component: ContactPage },

@@ -8,7 +8,10 @@
       class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:static lg:inset-0 z-30"
       style="will-change: transform"
     >
-      <div class="flex items-center justify-between h-16 px-6 bg-blue-600">
+      <div
+        class="flex items-center justify-between h-16 px-6"
+        style="background: linear-gradient(to right, #1e4d7a, #2d5a8f)"
+      >
         <h1 class="text-xl font-bold text-white">Admin Panel</h1>
         <button @click="sidebarOpen = false" class="lg:hidden text-white">
           <svg
@@ -32,6 +35,7 @@
           v-for="item in menuItems"
           :key="item.path"
           :to="item.path"
+          @click="handleMenuClick"
           class="flex items-center px-4 py-3 mb-2 text-gray-700 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors cursor-pointer"
           exact-active-class="bg-blue-50 text-blue-600 font-semibold"
         >
@@ -143,7 +147,7 @@ export default {
   name: 'AdminLayout',
   data() {
     return {
-      sidebarOpen: true,
+      sidebarOpen: false,
       adminInfo: {},
       menuItems: [
         {
@@ -170,12 +174,24 @@ export default {
     },
   },
   methods: {
-    handleLogout() {
-      if (confirm('Are you sure you want to logout?')) {
-        localStorage.removeItem('admin_token');
-        localStorage.removeItem('admin_info');
-        this.$router.push('/admin/login');
+    handleMenuClick() {
+      // Close sidebar on mobile after clicking a menu item
+      if (window.innerWidth < 1024) {
+        this.sidebarOpen = false;
       }
+    },
+    handleResize() {
+      // Update sidebar state based on screen size
+      if (window.innerWidth >= 1024) {
+        this.sidebarOpen = true;
+      } else {
+        this.sidebarOpen = false;
+      }
+    },
+    handleLogout() {
+      localStorage.removeItem('admin_token');
+      localStorage.removeItem('admin_info');
+      this.$router.push('/admin/login');
     },
   },
   mounted() {
@@ -183,6 +199,18 @@ export default {
     if (adminInfoStr) {
       this.adminInfo = JSON.parse(adminInfoStr);
     }
+
+    // Open sidebar by default on desktop (lg breakpoint is 1024px)
+    if (window.innerWidth >= 1024) {
+      this.sidebarOpen = true;
+    }
+
+    // Listen for window resize
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeUnmount() {
+    // Clean up event listener
+    window.removeEventListener('resize', this.handleResize);
   },
 };
 </script>

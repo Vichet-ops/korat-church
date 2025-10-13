@@ -57,7 +57,15 @@ export default {
         church_email: '',
       },
       events: [],
-      serviceTimes: [],
+      serviceTimes: [
+        { day: 'Sunday', time: '10:00 AM', service: 'Main Worship Service' },
+        { day: 'Wednesday', time: '7:00 PM', service: 'Bible Study & Prayer' },
+        {
+          day: 'Friday',
+          time: '6:30 PM',
+          service: 'Youth Activities & Fellowship',
+        },
+      ],
       navPages: [
         { id: 'home', name: 'Home' },
         { id: 'about', name: 'About' },

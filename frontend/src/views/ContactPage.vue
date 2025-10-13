@@ -2,9 +2,9 @@
   <div>
     <!-- Hero Section -->
     <div
-      class="relative h-96 md:h-[500px] lg:h-[600px] flex items-center justify-center pt-24 lg:pt-32 bg-[position:center_50%] md:bg-[position:center_40%] lg:bg-[position:center_45%]"
+      class="relative h-[28rem] md:h-[500px] lg:h-[600px] flex items-center justify-center pt-24 lg:pt-32 bg-[position:center_50%] md:bg-[position:center_40%] lg:bg-[position:center_45%]"
       style="
-        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
           url('/images/contact-us.png') no-repeat center center;
         background-size: cover;
       "
@@ -13,23 +13,25 @@
         class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center h-full"
       >
         <h1
-          class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4"
+          class="text-5xl md:text-7xl xl:text-8xl font-extrabold text-white tracking-tight mb-6"
         >
           Contact Us
         </h1>
-        <p class="text-lg md:text-xl text-gray-200/95 max-w-3xl mx-auto">
+        <p class="text-xl md:text-2xl text-white max-w-3xl mx-auto">
           We'd love to hear from you. Get in touch with us today!
         </p>
       </div>
     </div>
 
     <!-- Contact Section -->
-    <section class="pt-24 lg:pt-28 pb-20 bg-white">
+    <section class="py-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
           <!-- Contact Information -->
           <div>
-            <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-4">
+            <h2
+              class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6"
+            >
               Get In Touch
             </h2>
             <p class="text-gray-600 mb-8">
@@ -149,7 +151,7 @@
 
           <!-- Contact Form -->
           <div class="bg-gray-50 p-8 rounded-lg">
-            <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-6">
+            <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
               Send us a Message
             </h3>
             <form @submit.prevent="sendMessage" class="space-y-6">
@@ -224,13 +226,15 @@
     </section>
 
     <!-- Map Section -->
-    <section class="py-20 bg-gray-100">
+    <section class="py-20 bg-blue-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-6">
+          <h2
+            class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6"
+          >
             Visit <span class="text-blue-600">Us</span>
           </h2>
-          <p class="text-sm text-gray-600">
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
             We're located in the heart of Nakhon Ratchasima and would love to
             see you!
           </p>

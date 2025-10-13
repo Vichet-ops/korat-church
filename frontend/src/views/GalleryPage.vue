@@ -1,13 +1,15 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <div class="pt-24 lg:pt-28 pb-20 bg-gray-50">
+    <div class="pt-32 lg:pt-36 pb-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-10">
-          <h1 class="text-4xl md:text-5xl font-bold text-gray-900">
+        <div class="text-center mb-16">
+          <h1
+            class="text-5xl md:text-7xl xl:text-8xl font-extrabold text-gray-900 mb-6"
+          >
             Photo Gallery
           </h1>
-          <p class="text-gray-600 mt-3">
+          <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
             Moments from our church life and events
           </p>
         </div>

@@ -2,7 +2,7 @@
   <div>
     <!-- Hero Section -->
     <div
-      class="relative h-96 md:h-[500px] lg:h-[600px] flex items-center justify-center pt-24 lg:pt-32"
+      class="relative h-[28rem] md:h-[500px] lg:h-[600px] flex items-center justify-center pt-24 lg:pt-32"
       style="
         background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
           url('/images/our-ministries.jpg') no-repeat center center;
@@ -13,11 +13,11 @@
         class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center h-full"
       >
         <h1
-          class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4"
+          class="text-5xl md:text-7xl xl:text-8xl font-extrabold text-white tracking-tight mb-6"
         >
           Our Ministries
         </h1>
-        <p class="text-lg md:text-xl text-gray-200/95 max-w-3xl mx-auto">
+        <p class="text-xl md:text-2xl text-white max-w-3xl mx-auto">
           Join us for worship, fellowship, and spiritual growth. Find your place
           in our community where faith comes alive through meaningful
           connections, inspiring worship, and opportunities to serve others in
@@ -27,11 +27,11 @@
     </div>
 
     <!-- Ministries Section -->
-    <section class="pt-10 lg:pt-12 pb-10 bg-white">
+    <section class="py-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2
-            class="text-lg md:text-2xl font-bold text-gray-900 max-w-3xl mx-auto"
+            class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 max-w-3xl mx-auto"
           >
             Discover opportunities to grow, serve, and connect in our church
             community.
@@ -41,7 +41,7 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <!-- Children's Ministry -->
           <div
-            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-md hover:scale-102 transition-all duration-200 ease-out"
+            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-out"
           >
             <div
               class="h-48 bg-cover bg-center"
@@ -51,7 +51,7 @@
               "
             ></div>
             <div class="p-6">
-              <h3 class="text-base font-bold text-gray-900 mb-3">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">
                 Children's Ministry
               </h3>
               <p class="text-gray-600 mb-4">
@@ -69,7 +69,7 @@
 
           <!-- Youth Ministry -->
           <div
-            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-md hover:scale-102 transition-all duration-200 ease-out"
+            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-out"
           >
             <div
               class="h-48 bg-cover bg-center"
@@ -79,7 +79,7 @@
               "
             ></div>
             <div class="p-6">
-              <h3 class="text-base font-bold text-gray-900 mb-3">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">
                 Youth Ministry
               </h3>
               <p class="text-gray-600 mb-4">
@@ -97,7 +97,7 @@
 
           <!-- Adult Bible Study -->
           <div
-            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-md hover:scale-102 transition-all duration-200 ease-out"
+            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-out"
           >
             <div
               class="h-48 bg-cover bg-center"
@@ -107,7 +107,7 @@
               "
             ></div>
             <div class="p-6">
-              <h3 class="text-base font-bold text-gray-900 mb-3">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">
                 Adult Bible Study
               </h3>
               <p class="text-gray-600 mb-4">
@@ -125,7 +125,7 @@
 
           <!-- Worship Ministry -->
           <div
-            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-md hover:scale-102 transition-all duration-200 ease-out"
+            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-out"
           >
             <div
               class="h-48 bg-cover bg-center"
@@ -135,7 +135,7 @@
               "
             ></div>
             <div class="p-6">
-              <h3 class="text-base font-bold text-gray-900 mb-3">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">
                 Worship Ministry
               </h3>
               <p class="text-gray-600 mb-4">
@@ -153,7 +153,7 @@
 
           <!-- Outreach Ministry -->
           <div
-            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-md hover:scale-102 transition-all duration-200 ease-out"
+            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-out"
           >
             <div
               class="h-48 bg-cover bg-center"
@@ -163,7 +163,7 @@
               "
             ></div>
             <div class="p-6">
-              <h3 class="text-base font-bold text-gray-900 mb-3">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">
                 Outreach Ministry
               </h3>
               <p class="text-gray-600 mb-4">
@@ -181,7 +181,7 @@
 
           <!-- Prayer Ministry -->
           <div
-            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-md hover:scale-102 transition-all duration-200 ease-out"
+            class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-out"
           >
             <div
               class="h-48 bg-cover bg-center"
@@ -191,7 +191,7 @@
               "
             ></div>
             <div class="p-6">
-              <h3 class="text-base font-bold text-gray-900 mb-3">
+              <h3 class="text-xl font-bold text-gray-900 mb-3">
                 Prayer Ministry
               </h3>
               <p class="text-gray-600 mb-4">
@@ -211,9 +211,11 @@
     </section>
 
     <!-- Call to Action -->
-    <section class="py-10 bg-gray-100">
+    <section class="py-20 bg-blue-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-lg md:text-2xl font-bold text-gray-900 mb-6">
+        <h2
+          class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6"
+        >
           Join Us This <span class="text-blue-600">Sunday</span>
         </h2>
         <p class="text-base text-gray-600 mb-8 max-w-3xl mx-auto">
@@ -223,7 +225,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             @click="$router.push('/contact')"
-            class="bg-blue-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-700 transition duration-300 transform hover:scale-105 cursor-pointer"
+            class="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-600 hover:text-white hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             Get Directions
           </button>
@@ -235,6 +237,6 @@
 
 <script>
 export default {
-  name: 'ServicesPage',
+  name: 'MinistriesPage',
 };
 </script>

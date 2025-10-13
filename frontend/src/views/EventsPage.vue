@@ -2,7 +2,7 @@
   <div>
     <!-- Hero Section -->
     <div
-      class="relative h-96 md:h-[500px] lg:h-[600px] flex items-center justify-center pt-24 lg:pt-32"
+      class="relative h-[28rem] md:h-[500px] lg:h-[600px] flex items-center justify-center pt-24 lg:pt-32"
       style="
         background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
           url('/images/christmas_eve.jpg') no-repeat center 65%;
@@ -13,19 +13,30 @@
         class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center h-full"
       >
         <h1
-          class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4"
+          class="text-5xl md:text-7xl xl:text-8xl font-extrabold text-white tracking-tight mb-6"
         >
           Our Church Events
         </h1>
-        <p class="text-lg md:text-xl text-gray-200/95 max-w-3xl mx-auto">
+        <p class="text-xl md:text-2xl text-white max-w-3xl mx-auto">
           Join us for special events, celebrations, and community gatherings.
         </p>
       </div>
     </div>
 
     <!-- Events Section -->
-    <section class="pt-12 lg:pt-14 pb-10 bg-gray-50">
+    <section class="py-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2
+            class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6"
+          >
+            Upcoming <span class="text-blue-600">Events</span>
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Join us for these special occasions and community gatherings
+            throughout the year.
+          </p>
+        </div>
         <!-- Show API events if available, otherwise show sample events -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div
@@ -69,18 +80,20 @@
     </section>
 
     <!-- Call to Action -->
-    <section class="py-10 bg-white">
+    <section class="py-20 bg-blue-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+        <h2
+          class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6"
+        >
           Stay <span class="text-blue-600">Connected</span>
         </h2>
-        <p class="text-base text-gray-600 mb-8 max-w-3xl mx-auto">
+        <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
           Want to stay updated on upcoming events? Contact us to join our
           mailing list.
         </p>
         <button
           @click="$router.push('/contact')"
-          class="bg-blue-600 text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-700 transition duration-300 transform hover:scale-105 cursor-pointer"
+          class="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg text-base font-semibold hover:bg-blue-600 hover:text-white hover:shadow-lg transition-all duration-300 cursor-pointer"
         >
           Contact Us
         </button>

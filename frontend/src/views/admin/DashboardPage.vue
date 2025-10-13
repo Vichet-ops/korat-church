@@ -6,82 +6,34 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <!-- New Messages -->
       <div
-        class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 text-white"
+        class="rounded-lg shadow-lg p-6 text-white"
+        style="background: linear-gradient(to bottom right, #1e4d7a, #2d5a8f)"
       >
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-blue-100 text-sm font-medium">New Messages</p>
-            <p class="text-3xl font-bold mt-2">{{ stats.newMessages }}</p>
-          </div>
-          <div class="bg-blue-400 bg-opacity-30 rounded-full p-3">
-            <svg
-              class="w-8 h-8"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              />
-            </svg>
-          </div>
+        <div>
+          <p class="text-blue-200 text-sm font-medium">New Messages</p>
+          <p class="text-3xl font-bold mt-2">{{ stats.newMessages }}</p>
         </div>
       </div>
 
       <!-- Total Messages -->
       <div
-        class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow-lg p-6 text-white"
+        class="rounded-lg shadow-lg p-6 text-white"
+        style="background: linear-gradient(to bottom right, #1e4d7a, #2d5a8f)"
       >
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-green-100 text-sm font-medium">Total Messages</p>
-            <p class="text-3xl font-bold mt-2">{{ stats.totalMessages }}</p>
-          </div>
-          <div class="bg-green-400 bg-opacity-30 rounded-full p-3">
-            <svg
-              class="w-8 h-8"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-              />
-            </svg>
-          </div>
+        <div>
+          <p class="text-blue-200 text-sm font-medium">Total Messages</p>
+          <p class="text-3xl font-bold mt-2">{{ stats.totalMessages }}</p>
         </div>
       </div>
 
       <!-- Admin Info -->
       <div
-        class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg shadow-lg p-6 text-white"
+        class="rounded-lg shadow-lg p-6 text-white"
+        style="background: linear-gradient(to bottom right, #1e4d7a, #2d5a8f)"
       >
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-purple-100 text-sm font-medium">Logged in as</p>
-            <p class="text-xl font-bold mt-2">{{ adminInfo.username }}</p>
-          </div>
-          <div class="bg-purple-400 bg-opacity-30 rounded-full p-3">
-            <svg
-              class="w-8 h-8"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
-            </svg>
-          </div>
+        <div>
+          <p class="text-blue-200 text-sm font-medium">Logged in as</p>
+          <p class="text-xl font-bold mt-2">{{ adminInfo.username }}</p>
         </div>
       </div>
     </div>
@@ -194,13 +146,22 @@ export default {
       }
     },
     formatDate(dateString) {
+      // Parse the date string
       const date = new Date(dateString);
+
+      // Check if date is valid
+      if (isNaN(date.getTime())) {
+        return 'Invalid date';
+      }
+
       const now = new Date();
       const diff = now - date;
+      const minutes = Math.floor(diff / (1000 * 60));
       const hours = Math.floor(diff / (1000 * 60 * 60));
       const days = Math.floor(hours / 24);
 
-      if (hours < 1) return 'Just now';
+      if (minutes < 1) return 'Just now';
+      if (minutes < 60) return `${minutes}m ago`;
       if (hours < 24) return `${hours}h ago`;
       if (days < 7) return `${days}d ago`;
       return date.toLocaleDateString();

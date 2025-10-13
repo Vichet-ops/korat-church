@@ -4,7 +4,7 @@
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div
-        class="flex justify-between items-center h-24 lg:h-28 transition-all duration-300"
+        class="flex justify-between items-center h-28 lg:h-32 transition-all duration-300"
       >
         <!-- Logo -->
         <div class="flex items-center">
@@ -16,10 +16,10 @@
             <img
               src="/images/cross-logo.png"
               alt="Muang Thai Korat Church Logo"
-              class="h-14 lg:h-24 w-auto"
+              class="h-16 lg:h-28 w-auto mr-2"
             />
             <span
-              class="ml-2 text-white font-semibold text-base lg:text-xl whitespace-nowrap"
+              class="text-white font-semibold text-lg lg:text-2xl whitespace-nowrap"
             >
               {{ churchName }}
             </span>
