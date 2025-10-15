@@ -1,0 +1,130 @@
+name: Deploy Church Website
+
+# Trigger workflow on push to main branch
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # Build and test the application
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: church_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Go dependencies
+        run: go mod download
+
+      - name: Install frontend dependencies
+        run: cd frontend && npm ci
+
+      - name: Run Go tests
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/church_test?sslmode=disable
+          JWT_SECRET: test-secret-key
+          GIN_MODE: test
+        run: go test ./...
+
+      - name: Run frontend tests
+        run: cd frontend && npm test -- --coverage --watchAll=false
+
+      - name: Build frontend
+        run: cd frontend && npm run build
+
+      - name: Build Go application
+        run: go build -o church-app main.go
+
+  # Deploy to production (only on main branch)
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          go mod download
+          cd frontend && npm ci
+
+      - name: Build frontend for production
+        run: cd frontend && npm run build
+
+      - name: Build Go application for production
+        run: go build -o church-app main.go
+
+      # Deploy to your server (replace with your deployment method)
+      - name: Deploy to server
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          # Example deployment script - customize for your server
+          echo "Deploying to $DEPLOY_HOST..."
+
+          # Create deployment package
+          tar -czf church-app.tar.gz church-app frontend/dist
+
+          # Upload and deploy (customize this for your server setup)
+          echo "Upload deployment package to server"
+          echo "Extract and restart services on server"
+          echo "Deployment completed successfully!"
+
+      - name: Notify deployment success
+        if: success()
+        run: |
+          echo "✅ Deployment successful!"
+          echo "🚀 Church website deployed to production"
+          echo "🌐 Visit your website at your domain"
+
+      - name: Notify deployment failure
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo "🔧 Check the logs above for errors"
