@@ -99,35 +99,41 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
           echo "🚀 Deploying to $DEPLOY_HOST..."
-          
+
           # Create deployment package
           tar -czf church-app.tar.gz church-app frontend/dist
-          
+
           # Setup SSH
           mkdir -p ~/.ssh
           echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          
+
           # Upload and deploy
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no church-app.tar.gz $DEPLOY_USER@$DEPLOY_HOST:/tmp/
-          
+
           # Deploy on server
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "
-            echo '📦 Extracting deployment package...'
+            echo '📦 Creating deployment directory...'
+            mkdir -p $DEPLOY_PATH
             cd $DEPLOY_PATH
+            
+            echo '📦 Extracting deployment package...'
             tar -xzf /tmp/church-app.tar.gz
             
             echo '🌐 Setting up web server...'
             # Copy frontend files to web directory
-            sudo cp -r frontend/dist/* /var/www/html/
+            cp -r frontend/dist/* /var/www/html/
             
             echo '🔧 Starting backend service...'
+            # Kill any existing church-app process
+            pkill -f church-app || true
+            
             # Start the Go application
             nohup ./church-app > church-app.log 2>&1 &
             
             echo '✅ Deployment completed!'
           "
-          
+
           echo "🎉 Church website deployed successfully!"
 
       - name: Notify deployment success
