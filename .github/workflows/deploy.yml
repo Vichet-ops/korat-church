@@ -57,6 +57,14 @@ jobs:
       - name: Build Go application
         run: go build -o church-app main.go
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            church-app
+            frontend/dist/
+
   # Deploy to production (only on main branch)
   deploy:
     needs: build-and-test
@@ -67,25 +75,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v4
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
         with:
-          go-version: '1.21'
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        run: |
-          go mod download
-          cd frontend && npm ci
-
-      - name: Build frontend for production
-        run: cd frontend && npm run build
+          name: build-artifacts
 
       - name: Build Go application for production (Linux)
         run: GOOS=linux GOARCH=amd64 go build -o church-app main.go
