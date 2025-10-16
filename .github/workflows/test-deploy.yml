@@ -1,0 +1,33 @@
+name: Test Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test-ssh:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Test SSH Connection
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        run: |
+          echo "🔍 Testing SSH connection..."
+          
+          # Setup SSH
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo "🔑 SSH key configured"
+          
+          # Debug: Check key format
+          echo "🔍 Key length: $(wc -c < ~/.ssh/deploy_key)"
+          echo "🔍 Key first 50 chars: $(head -c 50 ~/.ssh/deploy_key)"
+          echo "🔍 Key last 50 chars: $(tail -c 50 ~/.ssh/deploy_key)"
+          
+          # Test SSH connection
+          echo "🔍 Testing SSH connection to $DEPLOY_USER@$DEPLOY_HOST..."
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=10 -v $DEPLOY_USER@$DEPLOY_HOST "echo 'SSH connection successful'"
