@@ -87,40 +87,28 @@ jobs:
           tar -czf church-app.tar.gz church-app frontend/dist
           echo "📦 Created deployment package"
 
-          # Setup SSH
+          # Setup SSH (copy exact working setup from test-deploy.yml)
           mkdir -p ~/.ssh
           echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           echo "🔑 SSH key configured"
-
+          
           # Debug: Check key format
           echo "🔍 Key length: $(wc -c < ~/.ssh/deploy_key)"
           echo "🔍 Key first 50 chars: $(head -c 50 ~/.ssh/deploy_key)"
-
-          # Test SSH connection first
-          echo "🔍 Testing SSH connection..."
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=10 -v $DEPLOY_USER@$DEPLOY_HOST "echo 'SSH connection successful'" || {
-            echo "❌ SSH connection failed with exit code $?"
-            echo "Checking SSH key permissions..."
-            ls -la ~/.ssh/deploy_key
-            echo "Testing SSH with different options..."
-            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=DEBUG $DEPLOY_USER@$DEPLOY_HOST "echo 'Test'"
-            exit 1
-          }
+          echo "🔍 Key last 50 chars: $(tail -c 50 ~/.ssh/deploy_key)"
+          
+          # Test SSH connection (exact same as test-deploy.yml)
+          echo "🔍 Testing SSH connection to $DEPLOY_USER@$DEPLOY_HOST..."
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=10 -v $DEPLOY_USER@$DEPLOY_HOST "echo 'SSH connection successful'"
 
           # Upload package
           echo "📤 Uploading deployment package..."
-          scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=30 church-app.tar.gz $DEPLOY_USER@$DEPLOY_HOST:/tmp/ || {
-            echo "❌ SCP upload failed"
-            exit 1
-          }
+          scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no church-app.tar.gz $DEPLOY_USER@$DEPLOY_HOST:/tmp/
 
           # Deploy on server
           echo "🚀 Starting deployment on server..."
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=30 $DEPLOY_USER@$DEPLOY_HOST "mkdir -p $DEPLOY_PATH && cd $DEPLOY_PATH && tar -xzf /tmp/church-app.tar.gz && cp -r frontend/dist/* /var/www/vichetkeo.com/html/ && pkill -f church-app || true && sleep 2 && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 & sleep 3 && echo 'Deployment completed'" || {
-            echo "❌ Deployment script failed"
-            exit 1
-          }
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "mkdir -p $DEPLOY_PATH && cd $DEPLOY_PATH && tar -xzf /tmp/church-app.tar.gz && cp -r frontend/dist/* /var/www/vichetkeo.com/html/ && pkill -f church-app || true && sleep 2 && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 & sleep 3 && echo 'Deployment completed'"
 
           echo "🎉 Church website deployed successfully!"
 
