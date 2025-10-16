@@ -100,8 +100,8 @@ jobs:
         run: |
           echo "🚀 Deploying to $DEPLOY_HOST..."
 
-          # Create deployment package
-          tar -czf church-app.tar.gz church-app frontend/dist
+          # Create deployment package (frontend only - backend will be built on server)
+          tar -czf church-app.tar.gz frontend/dist
           echo "📦 Created deployment package"
 
           # Setup SSH
@@ -129,11 +129,25 @@ jobs:
             tar -xzf /tmp/church-app.tar.gz
             
             echo '🌐 Setting up web server...'
-            cp -r frontend/dist/* /var/www/html/
+            # Copy to the correct directory for your domain
+            cp -r frontend/dist/* /var/www/vichetkeo.com/html/
+            
+            echo '🔧 Building Go application on server...'
+            cd /var/www/church-website
+            if [ -d source ]; then
+              cd source && git pull
+            else
+              git clone https://github.com/Vichet-ops/korat-church.git source
+              cd source
+            fi
+            
+            echo '🏗️ Building Go app...'
+            go build -o ../church-app main.go
             
             echo '🔧 Starting backend service...'
             pkill -f church-app || true
-            nohup ./church-app > church-app.log 2>&1 &
+            cd /var/www/church-website
+            DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 &
             
             echo '✅ Deployment completed!'
           "
