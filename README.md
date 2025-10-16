@@ -175,3 +175,4 @@ Server setup complete
 Updated DEPLOY_HOST to server IP
 debug ssh
 trigger debug Thu Oct 16 16:12:32 +07 2025
+Testing auto-deploy with updated secrets Thu Oct 16 16:24:32 +07 2025
