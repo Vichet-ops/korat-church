@@ -1,0 +1,50 @@
+name: Simple SSH Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+      - name: Build backend
+        run: |
+          go mod download
+          GOOS=linux GOARCH=amd64 go build -o church-app main.go
+
+      - name: Deploy with simple SSH
+        env:
+          DROPLET_HOST: ${{ secrets.DROPLET_HOST }}
+          DROPLET_USER: ${{ secrets.DROPLET_USER }}
+          DROPLET_KEY: ${{ secrets.DROPLET_KEY }}
+          DROPLET_PATH: ${{ secrets.DROPLET_PATH }}
+        run: |
+          # Setup SSH
+          mkdir -p ~/.ssh
+          echo "$DROPLET_KEY" > ~/.ssh/key
+          chmod 600 ~/.ssh/key
+
+          # Test SSH (simple)
+          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "echo 'SSH works'"
+
+          # Upload files (simple)
+          scp -i ~/.ssh/key -o StrictHostKeyChecking=no church-app $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/
+
+          # Upload frontend (simple)
+          scp -i ~/.ssh/key -o StrictHostKeyChecking=no -r frontend/dist/* $DROPLET_USER@$DROPLET_HOST:/var/www/vichetkeo.com/html/
+
+          # Start backend (simple)
+          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && pkill -f church-app; chmod +x church-app; nohup ./church-app > app.log 2>&1 &"
+
+          echo "✅ Deployed!"

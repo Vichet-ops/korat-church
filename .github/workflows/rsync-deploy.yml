@@ -45,6 +45,6 @@ jobs:
           rsync -avz -e "ssh -i ~/.ssh/droplet_key -o StrictHostKeyChecking=no" church-app $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/
 
           # Start backend
-          ssh -i ~/.ssh/droplet_key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && pkill -f church-app || true && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 &"
+          ssh -i ~/.ssh/droplet_key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && pkill -f church-app || true && sleep 2 && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 & sleep 3 && ps aux | grep church-app | grep -v grep && echo 'Backend started successfully!'"
 
           echo "✅ Deployment complete!"

@@ -2,7 +2,7 @@ name: Minimal Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [disabled]
 
 jobs:
   minimal-deploy:
