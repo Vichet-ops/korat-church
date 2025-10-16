@@ -90,7 +90,7 @@ jobs:
       - name: Build Go application for production
         run: go build -o church-app main.go
 
-      # Deploy to your server (replace with your deployment method)
+      # Deploy to your server
       - name: Deploy to server
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -98,16 +98,37 @@ jobs:
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          # Example deployment script - customize for your server
-          echo "Deploying to $DEPLOY_HOST..."
-
+          echo "🚀 Deploying to $DEPLOY_HOST..."
+          
           # Create deployment package
           tar -czf church-app.tar.gz church-app frontend/dist
-
-          # Upload and deploy (customize this for your server setup)
-          echo "Upload deployment package to server"
-          echo "Extract and restart services on server"
-          echo "Deployment completed successfully!"
+          
+          # Setup SSH
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          
+          # Upload and deploy
+          scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no church-app.tar.gz $DEPLOY_USER@$DEPLOY_HOST:/tmp/
+          
+          # Deploy on server
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "
+            echo '📦 Extracting deployment package...'
+            cd $DEPLOY_PATH
+            tar -xzf /tmp/church-app.tar.gz
+            
+            echo '🌐 Setting up web server...'
+            # Copy frontend files to web directory
+            sudo cp -r frontend/dist/* /var/www/html/
+            
+            echo '🔧 Starting backend service...'
+            # Start the Go application
+            nohup ./church-app > church-app.log 2>&1 &
+            
+            echo '✅ Deployment completed!'
+          "
+          
+          echo "🎉 Church website deployed successfully!"
 
       - name: Notify deployment success
         if: success()
