@@ -87,8 +87,8 @@ jobs:
       - name: Build frontend for production
         run: cd frontend && npm run build
 
-      - name: Build Go application for production
-        run: go build -o church-app main.go
+      - name: Build Go application for production (Linux)
+        run: GOOS=linux GOARCH=amd64 go build -o church-app main.go
 
       # Deploy to your server
       - name: Deploy to server
@@ -100,8 +100,8 @@ jobs:
         run: |
           echo "🚀 Deploying to $DEPLOY_HOST..."
 
-          # Create deployment package (frontend only - backend will be built on server)
-          tar -czf church-app.tar.gz frontend/dist
+          # Create deployment package
+          tar -czf church-app.tar.gz church-app frontend/dist
           echo "📦 Created deployment package"
 
           # Setup SSH
@@ -132,22 +132,24 @@ jobs:
             # Copy to the correct directory for your domain
             cp -r frontend/dist/* /var/www/vichetkeo.com/html/
             
-            echo '🔧 Building Go application on server...'
-            cd /var/www/church-website
-            if [ -d source ]; then
-              cd source && git pull
-            else
-              git clone https://github.com/Vichet-ops/korat-church.git source
-              cd source
-            fi
-            
-            echo '🏗️ Building Go app...'
-            go build -o ../church-app main.go
-            
             echo '🔧 Starting backend service...'
+            # Kill any existing process
             pkill -f church-app || true
-            cd /var/www/church-website
+            sleep 2
+            
+            # Start the Go application
+            chmod +x church-app
             DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 &
+            
+            echo '⏳ Waiting for service to start...'
+            sleep 5
+            
+            # Test if the service is running
+            if curl -f http://localhost:8080/api/health > /dev/null 2>&1; then
+              echo '✅ Backend service is running!'
+            else
+              echo '⚠️ Backend service may not be running - check logs'
+            fi
             
             echo '✅ Deployment completed!'
           "
