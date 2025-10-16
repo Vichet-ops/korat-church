@@ -19,7 +19,8 @@ func NewHealthController() *HealthController {
 func (hc *HealthController) HealthCheck(c *gin.Context) {
 	response := gin.H{
 		"status": "ok",
-		"service": "manage-api",
+		"service": "church-api",
+		"database": "checking...",
 	}
 
 	// Check database connection
