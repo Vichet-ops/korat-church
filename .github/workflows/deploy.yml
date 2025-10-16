@@ -107,39 +107,7 @@ jobs:
 
           # Deploy on server
           echo "🚀 Starting deployment on server..."
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "
-            echo '📦 Creating deployment directory...'
-            mkdir -p $DEPLOY_PATH
-            cd $DEPLOY_PATH
-            
-            echo '📦 Extracting deployment package...'
-            tar -xzf /tmp/church-app.tar.gz
-            
-            echo '🌐 Setting up web server...'
-            # Copy to the correct directory for your domain
-            cp -r frontend/dist/* /var/www/vichetkeo.com/html/
-            
-            echo '🔧 Starting backend service...'
-            # Kill any existing process
-            pkill -f church-app || true
-            sleep 2
-            
-            # Start the Go application
-            chmod +x church-app
-            DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 &
-            
-            echo '⏳ Waiting for service to start...'
-            sleep 5
-            
-            # Test if the service is running
-            if curl -f http://localhost:8080/api/health > /dev/null 2>&1; then
-              echo '✅ Backend service is running!'
-            else
-              echo '⚠️ Backend service may not be running - check logs'
-            fi
-            
-            echo '✅ Deployment completed!'
-          "
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=30 $DEPLOY_USER@$DEPLOY_HOST "mkdir -p $DEPLOY_PATH && cd $DEPLOY_PATH && tar -xzf /tmp/church-app.tar.gz && cp -r frontend/dist/* /var/www/vichetkeo.com/html/ && pkill -f church-app || true && sleep 2 && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 & sleep 3 && echo 'Deployment completed'"
 
           echo "🎉 Church website deployed successfully!"
 
