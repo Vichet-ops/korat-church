@@ -173,3 +173,4 @@ See [QUICK_START_GUIDE.md](./QUICK_START_GUIDE.md) for detailed usage.
 Updated SSH key
 Server setup complete
 Updated DEPLOY_HOST to server IP
+debug ssh
