@@ -16,6 +16,7 @@ jobs:
         run: |
           cd frontend
           npm ci
+          echo "VITE_API_URL=https://vichetkeo.com" > .env.production
           npm run build
 
       - name: Build backend
