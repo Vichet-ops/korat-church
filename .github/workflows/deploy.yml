@@ -99,25 +99,25 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
           echo "🚀 Deploying to $DEPLOY_HOST..."
-          
+
           # Create deployment package
           tar -czf church-app.tar.gz church-app frontend/dist
           echo "📦 Created deployment package"
-          
+
           # Setup SSH
           mkdir -p ~/.ssh
           echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           echo "🔑 SSH key configured"
-          
+
           # Test SSH connection first
           echo "🔍 Testing SSH connection..."
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=10 $DEPLOY_USER@$DEPLOY_HOST "echo 'SSH connection successful'"
-          
+
           # Upload package
           echo "📤 Uploading deployment package..."
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no church-app.tar.gz $DEPLOY_USER@$DEPLOY_HOST:/tmp/
-          
+
           # Deploy on server
           echo "🚀 Starting deployment on server..."
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "
@@ -137,7 +137,7 @@ jobs:
             
             echo '✅ Deployment completed!'
           "
-          
+
           echo "🎉 Church website deployed successfully!"
 
       - name: Notify deployment success

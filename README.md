@@ -172,3 +172,4 @@ See [QUICK_START_GUIDE.md](./QUICK_START_GUIDE.md) for detailed usage.
 - **Hot Reload**: Fast development cycle with automatic restarts
 Updated SSH key
 Server setup complete
+Updated DEPLOY_HOST to server IP
