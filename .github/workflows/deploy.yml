@@ -12,20 +12,6 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: church_test
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -47,9 +33,6 @@ jobs:
 
       - name: Install frontend dependencies
         run: cd frontend && npm ci
-
-      - name: Skip tests (temporarily)
-        run: echo "Tests skipped for now - will add them later"
 
       - name: Build frontend
         run: cd frontend && npm run build
