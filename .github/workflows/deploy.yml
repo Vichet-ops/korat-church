@@ -3,9 +3,7 @@ name: Deploy Church Website
 # Trigger workflow on push to main branch
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches: [disabled]
 
 jobs:
   # Build and test the application
@@ -109,19 +107,19 @@ jobs:
           # Deploy step by step
           echo "🚀 Step 1: Create deployment directory..."
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "mkdir -p $DEPLOY_PATH"
-          
+
           echo "🚀 Step 2: Extract package..."
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_PATH && tar -xzf /tmp/church-app.tar.gz"
-          
+
           echo "🚀 Step 3: Copy frontend..."
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "cp -r $DEPLOY_PATH/frontend/dist/* /var/www/vichetkeo.com/html/"
-          
+
           echo "🚀 Step 4: Stop old backend..."
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "pkill -f church-app || true"
-          
+
           echo "🚀 Step 5: Start new backend..."
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_PATH && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 &"
-          
+
           echo "🚀 Step 6: Wait and verify..."
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no $DEPLOY_USER@$DEPLOY_HOST "sleep 3 && ps aux | grep church-app | grep -v grep"
 

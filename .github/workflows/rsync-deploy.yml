@@ -1,0 +1,50 @@
+name: Deploy with rsync
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+      - name: Build backend
+        run: |
+          go mod download
+          GOOS=linux GOARCH=amd64 go build -o church-app main.go
+
+      - name: Deploy with rsync
+        env:
+          DROPLET_HOST: ${{ secrets.DROPLET_HOST }}
+          DROPLET_USER: ${{ secrets.DROPLET_USER }}
+          DROPLET_KEY: ${{ secrets.DROPLET_KEY }}
+          DROPLET_PATH: ${{ secrets.DROPLET_PATH }}
+        run: |
+          # Setup SSH
+          mkdir -p ~/.ssh
+          echo "$DROPLET_KEY" > ~/.ssh/droplet_key
+          chmod 600 ~/.ssh/droplet_key
+
+          # Test connection
+          ssh -i ~/.ssh/droplet_key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "echo 'Connected'"
+
+          # Deploy frontend
+          rsync -avz -e "ssh -i ~/.ssh/droplet_key -o StrictHostKeyChecking=no" frontend/dist/ $DROPLET_USER@$DROPLET_HOST:/var/www/vichetkeo.com/html/
+
+          # Deploy backend
+          rsync -avz -e "ssh -i ~/.ssh/droplet_key -o StrictHostKeyChecking=no" church-app $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/
+
+          # Start backend
+          ssh -i ~/.ssh/droplet_key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && pkill -f church-app || true && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 &"
+
+          echo "✅ Deployment complete!"
