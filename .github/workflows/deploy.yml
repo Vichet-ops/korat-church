@@ -109,6 +109,10 @@ jobs:
           echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           echo "🔑 SSH key configured"
+          
+          # Debug: Check key format
+          echo "🔍 Key length: $(wc -c < ~/.ssh/deploy_key)"
+          echo "🔍 Key first 50 chars: $(head -c 50 ~/.ssh/deploy_key)"
 
           # Test SSH connection first
           echo "🔍 Testing SSH connection..."
