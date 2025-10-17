@@ -1,4 +1,4 @@
-name: Deploy with rsync
+name: Church Website Deploy
 
 on:
   push:
