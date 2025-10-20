@@ -215,7 +215,7 @@ export default {
   },
   methods: {
     processDonation() {
-      // TODO: Implement actual payment processing (e.g., PayPal, Stripe)
+      // Payment processing will be implemented when needed
       alert(
         `Processing donation of $${this.donationForm.amount} to ${this.donationForm.category}`
       );

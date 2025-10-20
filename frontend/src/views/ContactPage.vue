@@ -25,201 +25,77 @@
 
     <!-- Contact Section -->
     <section class="py-20 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <!-- Contact Information -->
-          <div>
-            <h2
-              class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6"
-            >
-              Get In Touch
-            </h2>
-            <p class="text-gray-600 mb-8">
-              Whether you have questions, prayer requests, or just want to learn
-              more about our church, we're here for you.
-            </p>
-
-            <div class="space-y-5">
-              <div class="flex items-start">
-                <div
-                  class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center"
-                >
-                  <svg
-                    class="w-6 h-6 text-blue-600"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div class="ml-4">
-                  <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                    Address
-                  </h3>
-                  <a
-                    :href="googleMapsLink"
-                    target="_blank"
-                    rel="noopener"
-                    class="text-gray-600 hover:text-blue-600 underline-offset-2 hover:underline focus:outline-none focus:ring-1 focus:ring-blue-400 focus:ring-offset-1 focus:ring-offset-white rounded"
-                  >
-                    {{ churchSettings.church_address }}
-                  </a>
-                </div>
-              </div>
-
-              <div class="flex items-start">
-                <div
-                  class="flex-shrink-0 w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center"
-                >
-                  <svg
-                    class="w-6 h-6 text-green-600"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
-                    />
-                  </svg>
-                </div>
-                <div class="ml-4">
-                  <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                    Phone
-                  </h3>
-                  <p class="text-gray-600">{{ churchSettings.church_phone }}</p>
-                </div>
-              </div>
-
-              <div class="flex items-start">
-                <div
-                  class="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center"
-                >
-                  <svg
-                    class="w-6 h-6 text-purple-600"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
-                    />
-                    <path
-                      d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
-                    />
-                  </svg>
-                </div>
-                <div class="ml-4">
-                  <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                    Email
-                  </h3>
-                  <p class="text-gray-600">{{ churchSettings.church_email }}</p>
-                </div>
-              </div>
-
-              <div class="flex items-start">
-                <div
-                  class="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center"
-                >
-                  <svg
-                    class="w-6 h-6 text-orange-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    ></path>
-                  </svg>
-                </div>
-                <div class="ml-4">
-                  <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                    Office Hours
-                  </h3>
-                  <p class="text-gray-600">
-                    Monday - Friday: 9:00 AM - 5:00 PM<br />
-                    Saturday - Sunday: By Appointment
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Contact Form -->
-          <div class="bg-gray-50 p-8 rounded-lg">
-            <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-              Send us a Message
-            </h3>
-            <form @submit.prevent="sendMessage" class="space-y-6">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Name</label
-                >
-                <input
-                  v-model="contactForm.name"
-                  type="text"
-                  required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none"
-                  placeholder="Your name"
-                />
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Email</label
-                >
-                <input
-                  v-model="contactForm.email"
-                  type="email"
-                  required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                  placeholder="your@email.com"
-                />
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Subject</label
-                >
-                <input
-                  v-model="contactForm.subject"
-                  type="text"
-                  required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                  placeholder="Message subject"
-                />
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Message</label
-                >
-                <textarea
-                  v-model="contactForm.message"
-                  rows="5"
-                  required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-                  placeholder="Your message"
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                class="w-full border border-blue-600 text-blue-600 py-3 px-6 rounded-lg font-semibold hover:bg-blue-600 hover:text-white outline-none transition duration-300 cursor-pointer"
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Contact Form -->
+        <div class="bg-gray-50 p-8 rounded-lg">
+          <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+            Send us a Message
+          </h3>
+          <form @submit.prevent="sendMessage" class="space-y-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Name</label
               >
-                Send Message
-              </button>
-            </form>
-            <div
-              v-if="messageSent"
-              class="mt-4 p-4 bg-green-100 text-green-700 rounded-lg"
-            >
-              Message sent successfully! We'll get back to you soon.
+              <input
+                v-model="contactForm.name"
+                type="text"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none"
+                placeholder="Your name"
+              />
             </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Email</label
+              >
+              <input
+                v-model="contactForm.email"
+                type="email"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                placeholder="your@email.com"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Subject</label
+              >
+              <input
+                v-model="contactForm.subject"
+                type="text"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                placeholder="Message subject"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Message</label
+              >
+              <textarea
+                v-model="contactForm.message"
+                rows="5"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                placeholder="Your message"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full border border-blue-600 text-blue-600 py-3 px-6 rounded-lg font-semibold hover:bg-blue-600 hover:text-white outline-none transition duration-300 cursor-pointer"
+            >
+              Send Message
+            </button>
+          </form>
+          <div
+            v-if="messageSent"
+            class="mt-4 p-4 bg-green-100 text-green-700 rounded-lg"
+          >
+            Message sent successfully! We'll get back to you soon.
           </div>
         </div>
       </div>
@@ -286,7 +162,7 @@ export default {
     async sendMessage() {
       try {
         // Get API URL from environment or use default
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8081';
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
         // Send message to backend
         const response = await fetch(`${apiUrl}/api/contact/send`, {
@@ -312,7 +188,6 @@ export default {
           this.contactForm = { name: '', email: '', subject: '', message: '' };
         }, 5000);
       } catch (error) {
-        console.error('Error sending message:', error);
         alert(
           'Sorry, there was an error sending your message. Please try again or contact us directly.'
         );

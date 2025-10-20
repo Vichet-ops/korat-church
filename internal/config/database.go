@@ -27,13 +27,5 @@ func InitDatabase() *gorm.DB {
 
 	log.Println("Database connected successfully")
 	
-	// Auto-migrate models here when we add them
-	// DB.AutoMigrate(&models.User{})
-	
-	return DB
-}
-
-// GetDB returns the database instance
-func GetDB() *gorm.DB {
 	return DB
 }

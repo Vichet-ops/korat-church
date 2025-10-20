@@ -10,8 +10,11 @@ func SetupCORS(r *gin.Engine) {
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{
 		"http://localhost:3000", 
+		"http://localhost:3001",
 		"http://localhost:5173",
 		"http://frontend:3000", // Docker internal network
+		"https://vichetkeo.com", // Production frontend URL
+		"https://www.vichetkeo.com", // Production frontend URL with www
 	}
 	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"}
 	config.AllowHeaders = []string{

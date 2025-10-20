@@ -11,7 +11,7 @@ import (
 // SetupRoutes configures all API routes
 func SetupRoutes(r *gin.Engine, db *gorm.DB) {
 	// Initialize controllers
-	healthController := controllers.NewHealthController()
+	healthController := controllers.NewHealthController(db)
 	churchController := controllers.NewChurchController(db)
 	contactController := controllers.NewContactController(db)
 	authController := controllers.NewAuthController(db)

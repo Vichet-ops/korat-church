@@ -7,7 +7,7 @@ on:
 jobs:
   upload:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,9 +34,16 @@ jobs:
           mkdir -p ~/.ssh
           echo "$DROPLET_KEY" > ~/.ssh/key
           chmod 600 ~/.ssh/key
-          
-          # Just upload files - no complex commands
+
+          # Upload files
           scp -i ~/.ssh/key -o StrictHostKeyChecking=no -r frontend/dist/* $DROPLET_USER@$DROPLET_HOST:/var/www/vichetkeo.com/html/
           scp -i ~/.ssh/key -o StrictHostKeyChecking=no church-app $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/
-          
-          echo "✅ Files uploaded!"
+          scp -i ~/.ssh/key -o StrictHostKeyChecking=no scripts/setup-production-database.sql $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/
+
+          # Setup database
+          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && PGPASSWORD='church123' psql -h localhost -U church_user -d church_db -f setup-production-database.sql"
+
+          # Start backend service
+          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && pkill -f church-app || true && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 &"
+
+          echo "✅ Files uploaded and backend started!"

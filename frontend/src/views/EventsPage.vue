@@ -187,12 +187,14 @@ export default {
     },
     getEventImage(index) {
       const images = [
-        'bible_study.jpg',
-        'community-outreach.jpg',
-        'prayer-ministry.jpg',
-        'christmas_eve.jpg',
+        'bible_study.jpg', // Bible Study Group
+        'youths-fellowship.jpg', // Youth Fellowship
+        'community-outreach.jpg', // Community Outreach
+        'prayer-ministry.jpg', // Prayer Meeting
+        'Christmas Celebration.jpg', // Christmas Celebration
+        'Easter Sunday Service.jpg', // Easter Sunday Service
       ];
-      return images[index % images.length];
+      return images[index] || 'church_building_1.jpg';
     },
   },
 };

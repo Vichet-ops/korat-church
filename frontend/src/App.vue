@@ -118,7 +118,7 @@ export default {
           }
         }
       } catch (error) {
-        console.error(`Error loading ${this.currentPage} data:`, error);
+        // Handle error silently for production
       }
     },
     parseServiceTimes() {
@@ -127,7 +127,6 @@ export default {
           this.serviceTimes = JSON.parse(this.churchSettings.service_times);
         }
       } catch (error) {
-        console.error('Error parsing service times:', error);
         this.serviceTimes = [];
       }
     },

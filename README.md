@@ -21,12 +21,17 @@ manage/
 │   │   ├── database.go
 │   │   └── cors.go
 │   ├── controllers/                 # HTTP handlers
-│   │   ├── user_controller.go
+│   │   ├── auth_controller.go
+│   │   ├── church_controller.go
+│   │   ├── contact_controller.go
 │   │   └── health_controller.go
 │   ├── services/                    # Business logic
-│   │   └── user_service.go
+│   │   ├── auth_service.go
+│   │   └── email_service.go
 │   ├── models/                      # Data models
-│   │   └── user.go
+│   │   ├── admin.go
+│   │   ├── contact.go
+│   │   └── member.go
 │   ├── routes/                      # Route definitions
 │   │   └── routes.go
 │   └── middleware/                  # Custom middleware
@@ -170,13 +175,13 @@ See [QUICK_START_GUIDE.md](./QUICK_START_GUIDE.md) for detailed usage.
 - **Maintainability**: Clean structure makes it easy to add new features
 - **Scalability**: Easy to add new controllers, services, and models
 - **Hot Reload**: Fast development cycle with automatic restarts
-Updated SSH key
-Server setup complete
-Updated DEPLOY_HOST to server IP
-debug ssh
-trigger debug Thu Oct 16 16:12:32 +07 2025
-Testing auto-deploy with updated secrets Thu Oct 16 16:24:32 +07 2025
-Test with updated SSH key Thu Oct 16 16:32:20 +07 2025
-Test auto-deploy after backend fix
-Trigger main deploy workflow Thu Oct 16 17:47:37 +07 2025
-Testing improved auto-deploy Fri Oct 17 06:12:54 +07 2025
+  Updated SSH key
+  Server setup complete
+  Updated DEPLOY_HOST to server IP
+  debug ssh
+  trigger debug Thu Oct 16 16:12:32 +07 2025
+  Testing auto-deploy with updated secrets Thu Oct 16 16:24:32 +07 2025
+  Test with updated SSH key Thu Oct 16 16:32:20 +07 2025
+  Test auto-deploy after backend fix
+  Trigger main deploy workflow Thu Oct 16 17:47:37 +07 2025
+  Testing improved auto-deploy Fri Oct 17 06:12:54 +07 2025

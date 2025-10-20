@@ -35,7 +35,7 @@ setup: ## First time setup (migrations, seed data, environment)
 	@echo "🗄️  Running migrations..."
 	@$(MAKE) db-migrate
 	@echo "🌱 Seeding data..."
-	@# TODO: Add seed data command when we have it
+	@# Database setup is handled by scripts/setup-production-database.sql
 	@echo "✅ Setup complete! Run 'make up' to start development."
 
 # Daily development startup
