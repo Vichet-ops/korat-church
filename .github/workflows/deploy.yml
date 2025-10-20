@@ -61,7 +61,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "$DROPLET_KEY" > ~/.ssh/key
           chmod 600 ~/.ssh/key
-          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && pkill -f church-app || true && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 & sleep 3 && curl -s http://127.0.0.1:8081/api/health || echo 'Backend not responding'"
+          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && pkill -f church-app || true && sleep 2 && chmod +x church-app && export DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' && export JWT_SECRET='your-jwt-secret-key-here' && export GIN_MODE=release && nohup ./church-app > church-app.log 2>&1 & sleep 5 && curl -s http://127.0.0.1:8081/api/health && echo 'Backend is healthy' || (echo 'Backend failed, checking logs:' && tail -20 church-app.log)"
 
       - name: Restore HTTPS with certbot (non-interactive)
         env:
