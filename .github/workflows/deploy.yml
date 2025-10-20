@@ -32,16 +32,22 @@ jobs:
           DROPLET_PATH: ${{ secrets.DROPLET_PATH }}
         run: |
           mkdir -p ~/.ssh
-          echo "$DROPLET_KEY" > ~/.ssh/key
+          printf "%s" "$DROPLET_KEY" | sed -e 's/\r$//' > ~/.ssh/key
           chmod 600 ~/.ssh/key
+          if [ -z "$DROPLET_HOST" ] || [ -z "$DROPLET_USER" ] || [ -z "$DROPLET_PATH" ]; then
+            echo "Missing one of DROPLET_HOST/DROPLET_USER/DROPLET_PATH secrets" && exit 1
+          fi
+
+          echo "🔎 SSH smoke test..."
+          ssh -vvv -o BatchMode=yes -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "uname -a && whoami && mkdir -p $DROPLET_PATH/release && echo 'Remote OK'"
 
           # Ensure remote target directories exist and show disk space
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "mkdir -p $DROPLET_PATH/release && df -h || true"
 
           # Upload files to a user-writable staging area
-          scp -v -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 -r frontend/dist $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
-          scp -v -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 church-app $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
-          scp -v -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 scripts/setup-production-database.sql $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
+          scp -vvv -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 -r frontend/dist $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
+          scp -vvv -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 church-app $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
+          scp -vvv -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 scripts/setup-production-database.sql $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
 
           # Move staged files into privileged locations (requires sudo on server)
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo mkdir -p /var/www/vichetkeo.com/html && sudo rsync -a --delete $DROPLET_PATH/release/dist/ /var/www/vichetkeo.com/html/ && sudo mv -f $DROPLET_PATH/release/church-app $DROPLET_PATH/ && sudo mv -f $DROPLET_PATH/release/setup-production-database.sql $DROPLET_PATH/"
