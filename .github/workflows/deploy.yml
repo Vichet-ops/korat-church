@@ -61,11 +61,17 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo ln -sf /etc/nginx/sites-available/vichetkeo.com /etc/nginx/sites-enabled/"
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo nginx -t && sudo systemctl reload nginx"
 
-          # Start backend service (database setup will be done manually)
+          # Setup database
+          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "
+            sudo -u postgres createdb church_db 2>/dev/null || true &&
+            sudo -u postgres psql -c \"CREATE USER church_user WITH PASSWORD 'church123';\" 2>/dev/null || true &&
+            sudo -u postgres psql -c \"GRANT ALL PRIVILEGES ON DATABASE church_db TO church_user;\"
+          "
+
+          # Start backend service
           ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && pkill -f church-app || true && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release PORT=8080 nohup ./church-app > church-app.log 2>&1 &"
 
           echo "✅ Files uploaded and backend started!"
-          echo "⚠️  Database setup must be done manually on the server"
 
       - name: Restart backend service and verify
         env:
