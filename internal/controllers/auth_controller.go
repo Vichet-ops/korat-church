@@ -50,12 +50,26 @@ func (ac *AuthController) Login(c *gin.Context) {
 		return
 	}
 
+	// Check if database connection is available
+	if ac.db == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Database connection not available",
+		})
+		return
+	}
+
 	// Find admin by username
 	var admin models.Admin
 	if err := ac.db.Where("username = ? AND is_active = ?", req.Username, true).First(&admin).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "Invalid username or password",
-		})
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"error": "Invalid username or password",
+			})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": "Database error occurred",
+			})
+		}
 		return
 	}
 
@@ -70,13 +84,19 @@ func (ac *AuthController) Login(c *gin.Context) {
 	// Update last login
 	now := time.Now()
 	admin.LastLogin = &now
-	ac.db.Save(&admin)
+	if err := ac.db.Save(&admin).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to update last login",
+		})
+		return
+	}
 
 	// Generate JWT token
 	token, err := ac.authService.GenerateToken(&admin)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Failed to generate token",
+			"details": err.Error(),
 		})
 		return
 	}

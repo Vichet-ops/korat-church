@@ -48,15 +48,24 @@ jobs:
           scp -vvv -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 -r frontend/dist $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
           scp -vvv -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 church-app $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
           scp -vvv -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 scripts/setup-production-database.sql $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
+          scp -vvv -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 nginx.conf $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
 
           # Move staged files into privileged locations (requires sudo on server)
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo mkdir -p /var/www/vichetkeo.com/html && sudo rsync -a --delete $DROPLET_PATH/release/dist/ /var/www/vichetkeo.com/html/ && sudo mv -f $DROPLET_PATH/release/church-app $DROPLET_PATH/ && sudo mv -f $DROPLET_PATH/release/setup-production-database.sql $DROPLET_PATH/"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo mkdir -p /var/www/vichetkeo.com/html"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo rsync -a --delete $DROPLET_PATH/release/dist/ /var/www/vichetkeo.com/html/"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo mv -f $DROPLET_PATH/release/church-app $DROPLET_PATH/"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo mv -f $DROPLET_PATH/release/setup-production-database.sql $DROPLET_PATH/"
+
+          # Setup nginx configuration
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo cp $DROPLET_PATH/release/nginx.conf /etc/nginx/sites-available/vichetkeo.com"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo ln -sf /etc/nginx/sites-available/vichetkeo.com /etc/nginx/sites-enabled/"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo nginx -t && sudo systemctl reload nginx"
 
           # Setup database
           ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && PGPASSWORD='church123' psql -h localhost -U church_user -d church_db -f setup-production-database.sql"
 
           # Start backend service
-          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && pkill -f church-app || true && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release nohup ./church-app > church-app.log 2>&1 &"
+          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && pkill -f church-app || true && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release PORT=8080 nohup ./church-app > church-app.log 2>&1 &"
 
           echo "✅ Files uploaded and backend started!"
 
@@ -81,14 +90,17 @@ jobs:
             export DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable'; \
             export JWT_SECRET='your-jwt-secret-key-here'; \
             export GIN_MODE=release; \
+            export PORT=8080; \
             nohup ./church-app > church-app.log 2>&1 & \
             sleep 6; \
             echo 'Health check:'; \
-            curl -sS http://127.0.0.1:8081/api/health || true; \
+            curl -sS http://127.0.0.1:8080/api/health || true; \
             echo; \
-            ss -tlnp | grep 8081 || netstat -tlnp | grep 8081 || true; \
+            ss -tlnp | grep 8080 || netstat -tlnp | grep 8080 || true; \
             echo 'Last 50 backend log lines:'; \
             tail -50 church-app.log || true; \
+            echo 'Testing API endpoint:'; \
+            curl -sS -X POST https://vichetkeo.com/api/auth/login -H 'Content-Type: application/json' -d '{\"username\":\"churchadmin\",\"password\":\"ChurchPass123!\"}' || true; \
+            echo; \
             true \
           "
-
