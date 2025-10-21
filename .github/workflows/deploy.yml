@@ -92,32 +92,3 @@ jobs:
             true \
           "
 
-      - name: Restore HTTPS with certbot (non-interactive)
-        env:
-          DROPLET_HOST: ${{ secrets.DROPLET_HOST }}
-          DROPLET_USER: ${{ secrets.DROPLET_USER }}
-          DROPLET_KEY: ${{ secrets.DROPLET_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$DROPLET_KEY" > ~/.ssh/key
-          chmod 600 ~/.ssh/key
-          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "sudo apt-get update && sudo apt-get install -y certbot python3-certbot-nginx && sudo certbot --nginx -n --agree-tos -m admin@vichetkeo.com -d vichetkeo.com -d www.vichetkeo.com --redirect || true && sudo nginx -t && sudo systemctl reload nginx || sudo service nginx reload"
-
-      - name: Ensure Nginx proxies /api to backend and reload
-        env:
-          DROPLET_HOST: ${{ secrets.DROPLET_HOST }}
-          DROPLET_USER: ${{ secrets.DROPLET_USER }}
-          DROPLET_KEY: ${{ secrets.DROPLET_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$DROPLET_KEY" > ~/.ssh/key
-          chmod 600 ~/.ssh/key
-          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "\
-            set -e; \
-            sudo mkdir -p /etc/nginx/snippets; \
-            sudo bash -c 'cat >/etc/nginx/snippets/api_proxy.conf <<EOF\nlocation /api/ {\n    proxy_pass http://127.0.0.1:8081/;\n    proxy_http_version 1.1;\n    proxy_set_header Host $host;\n    proxy_set_header X-Real-IP $remote_addr;\n    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n    proxy_set_header X-Forwarded-Proto $scheme;\n}\nEOF'; \
-            SITE=/etc/nginx/sites-available/vichetkeo.com; \
-            sudo grep -q "include snippets/api_proxy.conf;" $SITE || sudo sed -i '/index index.html;/a \\    include snippets/api_proxy.conf;' $SITE; \
-            sudo nginx -t && (sudo systemctl reload nginx || sudo service nginx reload); \
-            echo 'Nginx reloaded with /api proxy' \
-          "
