@@ -64,10 +64,13 @@ jobs:
           # Setup database (create if doesn't exist)
           ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "
             cd $DROPLET_PATH && 
-            sudo -u postgres psql -c \"CREATE DATABASE church_db;\" || true &&
-            sudo -u postgres psql -c \"CREATE USER church_user WITH PASSWORD 'church123';\" || true &&
-            sudo -u postgres psql -c \"GRANT ALL PRIVILEGES ON DATABASE church_db TO church_user;\" || true &&
-            PGPASSWORD='church123' psql -h localhost -U church_user -d church_db -f setup-production-database.sql
+            echo 'Setting up database...' &&
+            sudo -u postgres psql -c \"CREATE DATABASE church_db;\" 2>/dev/null || echo 'Database already exists' &&
+            sudo -u postgres psql -c \"CREATE USER church_user WITH PASSWORD 'church123';\" 2>/dev/null || echo 'User already exists' &&
+            sudo -u postgres psql -c \"GRANT ALL PRIVILEGES ON DATABASE church_db TO church_user;\" &&
+            echo 'Running database setup script...' &&
+            PGPASSWORD='church123' psql -h localhost -U church_user -d church_db -f setup-production-database.sql &&
+            echo 'Database setup completed successfully'
           "
 
           # Start backend service
