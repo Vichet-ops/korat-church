@@ -162,7 +162,7 @@ export default {
     async sendMessage() {
       try {
         // Get API URL from environment or use default
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://vichetkeo.com';
 
         // Send message to backend
         const response = await fetch(`${apiUrl}/api/contact/send`, {

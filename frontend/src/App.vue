@@ -37,7 +37,7 @@ import axios from 'axios';
 import NavbarComponent from './components/NavbarComponent.vue';
 import FooterComponent from './components/FooterComponent.vue';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8081';
+const API_URL = import.meta.env.VITE_API_URL || 'https://vichetkeo.com';
 
 export default {
   name: 'App',
