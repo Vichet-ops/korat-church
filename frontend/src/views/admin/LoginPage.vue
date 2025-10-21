@@ -153,7 +153,7 @@ export default {
       this.loading = true;
 
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8081';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://vichetkeo.com';
         const response = await fetch(`${apiUrl}/api/auth/login`, {
           method: 'POST',
           headers: {

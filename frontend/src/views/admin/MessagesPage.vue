@@ -327,7 +327,7 @@ export default {
     async loadMessages() {
       try {
         const token = localStorage.getItem('admin_token');
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8081';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://vichetkeo.com';
 
         const response = await fetch(`${apiUrl}/api/admin/messages`, {
           headers: {
@@ -360,7 +360,7 @@ export default {
 
       try {
         const token = localStorage.getItem('admin_token');
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8081';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://vichetkeo.com';
 
         const response = await fetch(`${apiUrl}/api/admin/messages/${id}`, {
           method: 'DELETE',
@@ -384,7 +384,7 @@ export default {
     async updateStatus() {
       try {
         const token = localStorage.getItem('admin_token');
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8081';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://vichetkeo.com';
 
         const response = await fetch(
           `${apiUrl}/api/admin/messages/${this.selectedMessage.id}/status`,
