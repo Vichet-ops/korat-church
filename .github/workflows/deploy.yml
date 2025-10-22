@@ -20,14 +20,13 @@ jobs:
 
           # Deploy using git
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@167.172.210.140 << 'EOF'
-            cd /opt/korat-church
+            cd /var/www/church-website
             git pull origin main
             
             # Build frontend
             cd frontend
             npm ci
             VITE_API_URL=https://vichetkeo.com npm run build
-            cp -r dist/* /var/www/church-website/
             
             # Build backend
             cd ..
