@@ -34,13 +34,13 @@ jobs:
 
           # Deploy files
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
-            -r frontend/dist/* root@165.232.163.96:/var/www/vichetkeo.com/
+            -r frontend/dist/* root@167.172.210.140:/var/www/vichetkeo.com/
 
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
-            church-app root@165.232.163.96:/opt/church-app/
+            church-app root@167.172.210.140:/opt/church-app/
 
           # Restart backend
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@165.232.163.96 \
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@167.172.210.140 \
             "cd /opt/church-app && \
              pkill -f church-app || true && \
              chmod +x church-app && \
