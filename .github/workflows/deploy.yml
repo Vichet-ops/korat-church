@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  upload:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,95 +16,34 @@ jobs:
         run: |
           cd frontend
           npm ci
-          echo "VITE_API_URL=https://vichetkeo.com" > .env.production
-          npm run build
+          VITE_API_URL=https://vichetkeo.com npm run build
 
       - name: Build backend
         run: |
           go mod download
           GOOS=linux GOARCH=amd64 go build -o church-app main.go
 
-      - name: Upload files
+      - name: Deploy to server
         env:
-          DROPLET_HOST: ${{ secrets.DROPLET_HOST }}
-          DROPLET_USER: ${{ secrets.DROPLET_USER }}
-          DROPLET_KEY: ${{ secrets.DROPLET_KEY }}
-          DROPLET_PATH: ${{ secrets.DROPLET_PATH }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
+          # Setup SSH
           mkdir -p ~/.ssh
-          printf "%s" "$DROPLET_KEY" | sed -e 's/\r$//' > ~/.ssh/key
-          chmod 600 ~/.ssh/key
-          if [ -z "$DROPLET_HOST" ] || [ -z "$DROPLET_USER" ] || [ -z "$DROPLET_PATH" ]; then
-            echo "Missing one of DROPLET_HOST/DROPLET_USER/DROPLET_PATH secrets" && exit 1
-          fi
+          echo "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
 
-          echo "🔎 SSH smoke test..."
-          ssh -vvv -o BatchMode=yes -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "uname -a && whoami && mkdir -p $DROPLET_PATH/release && echo 'Remote OK'"
+          # Deploy files
+          scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            -r frontend/dist/* root@165.232.163.96:/var/www/vichetkeo.com/
 
-          # Ensure remote target directories exist and show disk space
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "mkdir -p $DROPLET_PATH/release && df -h || true"
+          scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            church-app root@165.232.163.96:/opt/church-app/
 
-          # Upload files to a user-writable staging area
-          scp -vvv -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 -r frontend/dist $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
-          scp -vvv -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 church-app $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
-          scp -vvv -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 scripts/setup-production-database.sql $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
-          scp -vvv -i ~/.ssh/key -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=4 nginx.conf $DROPLET_USER@$DROPLET_HOST:$DROPLET_PATH/release/
+          # Restart backend
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@165.232.163.96 \
+            "cd /opt/church-app && \
+             pkill -f church-app || true && \
+             chmod +x church-app && \
+             nohup ./church-app > church-app.log 2>&1 &"
 
-          # Move staged files into privileged locations (requires sudo on server)
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo mkdir -p /var/www/vichetkeo.com/html"
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo rsync -a --delete $DROPLET_PATH/release/dist/ /var/www/vichetkeo.com/html/"
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo mv -f $DROPLET_PATH/release/church-app $DROPLET_PATH/"
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo mv -f $DROPLET_PATH/release/setup-production-database.sql $DROPLET_PATH/"
-
-          # Setup nginx configuration
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo cp $DROPLET_PATH/release/nginx.conf /etc/nginx/sites-available/vichetkeo.com"
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo ln -sf /etc/nginx/sites-available/vichetkeo.com /etc/nginx/sites-enabled/"
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/key $DROPLET_USER@$DROPLET_HOST "sudo nginx -t && sudo systemctl reload nginx"
-
-          # Setup database
-          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "
-            sudo -u postgres createdb church_db 2>/dev/null || true &&
-            sudo -u postgres psql -c \"CREATE USER church_user WITH PASSWORD 'church123';\" 2>/dev/null || true &&
-            sudo -u postgres psql -c \"GRANT ALL PRIVILEGES ON DATABASE church_db TO church_user;\"
-          "
-
-          # Start backend service
-          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "cd $DROPLET_PATH && pkill -f church-app || true && chmod +x church-app && DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable' JWT_SECRET='your-jwt-secret-key-here' GIN_MODE=release PORT=8080 nohup ./church-app > church-app.log 2>&1 &"
-
-          echo "✅ Files uploaded and backend started!"
-
-      - name: Restart backend service and verify
-        env:
-          DROPLET_HOST: ${{ secrets.DROPLET_HOST }}
-          DROPLET_USER: ${{ secrets.DROPLET_USER }}
-          DROPLET_KEY: ${{ secrets.DROPLET_KEY }}
-          DROPLET_PATH: ${{ secrets.DROPLET_PATH }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$DROPLET_KEY" > ~/.ssh/key
-          chmod 600 ~/.ssh/key
-          ssh -i ~/.ssh/key -o StrictHostKeyChecking=no $DROPLET_USER@$DROPLET_HOST "\
-            set -e; \
-            cd $DROPLET_PATH; \
-            echo 'Stopping old backend (if any)...'; \
-            pkill -f church-app || true; \
-            sleep 2; \
-            echo 'Starting backend...'; \
-            chmod +x church-app; \
-            export DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable'; \
-            export JWT_SECRET='your-jwt-secret-key-here'; \
-            export GIN_MODE=release; \
-            export PORT=8080; \
-            nohup ./church-app > church-app.log 2>&1 & \
-            sleep 6; \
-            echo 'Health check:'; \
-            curl -sS http://127.0.0.1:8080/api/health || true; \
-            echo; \
-            ss -tlnp | grep 8080 || netstat -tlnp | grep 8080 || true; \
-            echo 'Last 50 backend log lines:'; \
-            tail -50 church-app.log || true; \
-            echo 'Testing API endpoint:'; \
-            curl -sS -X POST https://vichetkeo.com/api/auth/login -H 'Content-Type: application/json' -d '{\"username\":\"churchadmin\",\"password\":\"ChurchPass123!\"}' || true; \
-            echo; \
-            true \
-          "
+          echo "✅ Deployment completed!"
