@@ -47,7 +47,7 @@ jobs:
 
           # Upload files
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
-            -r frontend/dist/* root@167.172.210.140:/var/www/church-website/
+            -r frontend/dist/* root@167.172.210.140:/var/www/vichetkeo.com/html/
 
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             korat-church root@167.172.210.140:/var/www/church-website/
