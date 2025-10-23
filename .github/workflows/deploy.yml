@@ -9,6 +9,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm ci
+          VITE_API_URL=https://vichetkeo.com npm run build
+
+      - name: Build backend
+        run: |
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o korat-church main.go
+
       - name: Deploy to server
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
@@ -17,28 +40,19 @@ jobs:
           mkdir -p ~/.ssh
           echo "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-
-          # Deploy using git
+          
+          # Upload files
+          scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            -r frontend/dist/* root@167.172.210.140:/var/www/church-website/
+          
+          scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            korat-church root@167.172.210.140:/var/www/church-website/
+          
+          scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            scripts/setup-production-database.sql root@167.172.210.140:/tmp/
+          
+          # Setup database and restart
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@167.172.210.140 << 'EOF'
-            # Clone or update repository in /opt
-            if [ ! -d "/opt/korat-church" ]; then
-              git clone https://github.com/Vichet-ops/korat-church.git /opt/korat-church
-            fi
-            
-            cd /opt/korat-church
-            git pull origin main
-            
-            # Build frontend
-            cd frontend
-            npm ci
-            VITE_API_URL=https://vichetkeo.com npm run build
-            cp -r dist/* /var/www/church-website/
-            
-            # Build backend (with limited memory to prevent OOM)
-            cd ..
-            CGO_ENABLED=0 go build -ldflags="-s -w" -o korat-church main.go
-            cp korat-church /var/www/church-website/
-            
             # Setup database
             sudo -u postgres psql << 'DBEOF'
             CREATE DATABASE church_db;
@@ -49,16 +63,20 @@ jobs:
             DBEOF
             
             # Run database setup script
-            sudo -u postgres psql -d church_db -f scripts/setup-production-database.sql
+            sudo -u postgres psql -d church_db -f /tmp/setup-production-database.sql
             
             # Restart backend
             cd /var/www/church-website
+            chmod +x korat-church
             pkill -f korat-church || true
+            sleep 2
+            
             export DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable'
             export JWT_SECRET='your-production-jwt-secret'
             export GIN_MODE=release
             export PORT=8080
             nohup ./korat-church > korat-church.log 2>&1 &
             
+            sleep 3
             echo "✅ Deployment completed!"
           EOF
