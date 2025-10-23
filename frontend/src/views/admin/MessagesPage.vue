@@ -288,12 +288,17 @@
             <select
               v-model="selectedMessage.status"
               @change="updateStatus"
+              :disabled="updatingStatus"
               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
             >
               <option value="new">New</option>
               <option value="read">Read</option>
               <option value="replied">Replied</option>
             </select>
+          </div>
+
+          <div v-if="updateSuccess" class="text-green-600 text-sm mt-2">
+            ✅ Status updated successfully!
           </div>
 
           <div class="pt-4">
@@ -314,18 +319,20 @@
 export default {
   name: 'MessagesPage',
   data() {
-    return {
-      loading: true,
-      messages: [],
-      filterStatus: 'all',
-      selectedMessage: null,
-      stats: {
-        total: 0,
-        new: 0,
-        read: 0,
-        replied: 0,
-      },
-    };
+      return {
+        loading: true,
+        updatingStatus: false,
+        updateSuccess: false,
+        messages: [],
+        filterStatus: 'all',
+        selectedMessage: null,
+        stats: {
+          total: 0,
+          new: 0,
+          read: 0,
+          replied: 0,
+        },
+      };
   },
   computed: {
     filteredMessages() {
@@ -397,6 +404,9 @@ export default {
       }
     },
     async updateStatus() {
+      if (this.updatingStatus) return; // Prevent multiple calls
+      
+      this.updatingStatus = true;
       try {
         const token = localStorage.getItem('admin_token');
         const apiUrl = import.meta.env.VITE_API_URL || 'https://vichetkeo.com';
@@ -437,10 +447,14 @@ export default {
         ).length;
 
         this.selectedMessage = null;
-        alert('Status updated successfully');
+        // Show brief success feedback
+        this.updateSuccess = true;
+        setTimeout(() => { this.updateSuccess = false; }, 2000);
       } catch (error) {
         console.error('Error updating status:', error);
         alert('Failed to update status');
+      } finally {
+        this.updatingStatus = false;
       }
     },
     viewMessage(message) {
