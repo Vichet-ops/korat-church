@@ -447,11 +447,11 @@ export default {
         ).length;
 
         this.selectedMessage = null;
-        // Show brief success feedback
+        // Show success feedback
         this.updateSuccess = true;
         setTimeout(() => {
           this.updateSuccess = false;
-        }, 2000);
+        }, 4000);
       } catch (error) {
         console.error('Error updating status:', error);
         alert('Failed to update status');
