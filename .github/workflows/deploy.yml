@@ -40,27 +40,24 @@ jobs:
           mkdir -p ~/.ssh
           echo "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          
+
           # Upload files
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             -r frontend/dist/* root@167.172.210.140:/var/www/church-website/
-          
+
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             korat-church root@167.172.210.140:/var/www/church-website/
-          
+
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             scripts/setup-production-database.sql root@167.172.210.140:/tmp/
-          
+
           # Setup database and restart
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@167.172.210.140 << 'EOF'
-            # Setup database
-            sudo -u postgres psql << 'DBEOF'
-            CREATE DATABASE church_db;
-            CREATE USER church_user WITH PASSWORD 'church123';
-            GRANT ALL PRIVILEGES ON DATABASE church_db TO church_user;
-            ALTER USER church_user WITH SUPERUSER;
-            \q
-            DBEOF
+            # Setup database (create if doesn't exist)
+            sudo -u postgres psql -c "CREATE DATABASE church_db;" 2>/dev/null || true
+            sudo -u postgres psql -c "CREATE USER church_user WITH PASSWORD 'church123';" 2>/dev/null || true
+            sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE church_db TO church_user;"
+            sudo -u postgres psql -c "ALTER USER church_user WITH SUPERUSER;"
             
             # Run database setup script
             sudo -u postgres psql -d church_db -f /tmp/setup-production-database.sql
