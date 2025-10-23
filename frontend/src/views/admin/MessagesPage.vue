@@ -432,6 +432,12 @@ export default {
         this.stats.read = this.messages.filter(
           (m) => m.status === 'read'
         ).length;
+        this.stats.replied = this.messages.filter(
+          (m) => m.status === 'replied'
+        ).length;
+
+        this.selectedMessage = null;
+        alert('Status updated successfully');
       } catch (error) {
         console.error('Error updating status:', error);
         alert('Failed to update status');
