@@ -41,6 +41,10 @@ jobs:
           echo "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
+          # Stop backend before uploading
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@167.172.210.140 \
+            "pkill -f korat-church || true"
+
           # Upload files
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             -r frontend/dist/* root@167.172.210.140:/var/www/church-website/
@@ -63,11 +67,9 @@ jobs:
             # Run database setup script
             sudo -u postgres psql -d church_db -f /tmp/setup-production-database.sql
             
-            # Restart backend
+            # Start backend
             cd /var/www/church-website
             chmod +x korat-church
-            pkill -f korat-church || true
-            sleep 2
             
             export DATABASE_URL='postgres://church_user:church123@localhost:5432/church_db?sslmode=disable'
             export JWT_SECRET='your-production-jwt-secret'
