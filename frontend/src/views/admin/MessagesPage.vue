@@ -297,10 +297,6 @@
             </select>
           </div>
 
-          <div v-if="updateSuccess" class="text-green-600 text-sm mt-2">
-            ✅ Status updated successfully!
-          </div>
-
           <div class="pt-4">
             <a
               :href="`mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.subject}`"
@@ -322,7 +318,6 @@ export default {
     return {
       loading: true,
       updatingStatus: false,
-      updateSuccess: false,
       messages: [],
       filterStatus: 'all',
       selectedMessage: null,
@@ -447,11 +442,6 @@ export default {
         ).length;
 
         this.selectedMessage = null;
-        // Show success feedback
-        this.updateSuccess = true;
-        setTimeout(() => {
-          this.updateSuccess = false;
-        }, 4000);
       } catch (error) {
         console.error('Error updating status:', error);
         alert('Failed to update status');
