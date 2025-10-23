@@ -40,6 +40,17 @@
         >
           Read ({{ stats.read }})
         </button>
+        <button
+          @click="filterStatus = 'replied'"
+          :class="
+            filterStatus === 'replied'
+              ? 'bg-purple-600 text-white'
+              : 'bg-gray-200 text-gray-700'
+          "
+          class="px-4 py-2 rounded-lg font-medium text-sm transition-colors cursor-pointer"
+        >
+          Replied ({{ stats.replied }})
+        </button>
       </div>
     </div>
 
@@ -312,6 +323,7 @@ export default {
         total: 0,
         new: 0,
         read: 0,
+        replied: 0,
       },
     };
   },
@@ -345,6 +357,9 @@ export default {
         this.stats.new = data.messages.filter((m) => m.status === 'new').length;
         this.stats.read = data.messages.filter(
           (m) => m.status === 'read'
+        ).length;
+        this.stats.replied = data.messages.filter(
+          (m) => m.status === 'replied'
         ).length;
       } catch (error) {
         console.error('Error loading messages:', error);
