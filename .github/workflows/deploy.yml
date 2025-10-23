@@ -42,7 +42,8 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
 
           # Stop backend before uploading
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@167.172.210.140 "pkill -f korat-church || true"
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no root@167.172.210.140 "pkill -f korat-church || true" || true
+          sleep 2
 
           # Upload files
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
