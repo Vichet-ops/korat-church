@@ -34,16 +34,22 @@ jobs:
             VITE_API_URL=https://vichetkeo.com npm run build
             cp -r dist/* /var/www/church-website/
             
-            # Build backend
+            # Build backend (with limited memory to prevent OOM)
             cd ..
-            go build -o korat-church main.go
+            CGO_ENABLED=0 go build -ldflags="-s -w" -o korat-church main.go
             cp korat-church /var/www/church-website/
             
             # Setup database
-            sudo -u postgres psql -c "CREATE DATABASE church_db;" 2>/dev/null || true
-            sudo -u postgres psql -c "CREATE USER church_user WITH PASSWORD 'church123';" 2>/dev/null || true
-            sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE church_db TO church_user;"
-            PGPASSWORD='church123' psql -h localhost -U church_user -d church_db -f scripts/setup-production-database.sql
+            sudo -u postgres psql << 'DBEOF'
+            CREATE DATABASE church_db;
+            CREATE USER church_user WITH PASSWORD 'church123';
+            GRANT ALL PRIVILEGES ON DATABASE church_db TO church_user;
+            ALTER USER church_user WITH SUPERUSER;
+            \q
+            DBEOF
+            
+            # Run database setup script
+            sudo -u postgres psql -d church_db -f scripts/setup-production-database.sql
             
             # Restart backend
             cd /var/www/church-website
