@@ -56,6 +56,7 @@ jobs:
             # Setup database (create if doesn't exist)
             sudo -u postgres psql -c "CREATE DATABASE church_db;" 2>/dev/null || true
             sudo -u postgres psql -c "CREATE USER church_user WITH PASSWORD 'church123';" 2>/dev/null || true
+            sudo -u postgres psql -c "ALTER USER church_user WITH PASSWORD 'church123';"
             sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE church_db TO church_user;"
             sudo -u postgres psql -c "ALTER USER church_user WITH SUPERUSER;"
             
