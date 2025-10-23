@@ -319,20 +319,20 @@
 export default {
   name: 'MessagesPage',
   data() {
-      return {
-        loading: true,
-        updatingStatus: false,
-        updateSuccess: false,
-        messages: [],
-        filterStatus: 'all',
-        selectedMessage: null,
-        stats: {
-          total: 0,
-          new: 0,
-          read: 0,
-          replied: 0,
-        },
-      };
+    return {
+      loading: true,
+      updatingStatus: false,
+      updateSuccess: false,
+      messages: [],
+      filterStatus: 'all',
+      selectedMessage: null,
+      stats: {
+        total: 0,
+        new: 0,
+        read: 0,
+        replied: 0,
+      },
+    };
   },
   computed: {
     filteredMessages() {
@@ -405,7 +405,7 @@ export default {
     },
     async updateStatus() {
       if (this.updatingStatus) return; // Prevent multiple calls
-      
+
       this.updatingStatus = true;
       try {
         const token = localStorage.getItem('admin_token');
@@ -449,7 +449,9 @@ export default {
         this.selectedMessage = null;
         // Show brief success feedback
         this.updateSuccess = true;
-        setTimeout(() => { this.updateSuccess = false; }, 2000);
+        setTimeout(() => {
+          this.updateSuccess = false;
+        }, 2000);
       } catch (error) {
         console.error('Error updating status:', error);
         alert('Failed to update status');
@@ -459,11 +461,6 @@ export default {
     },
     viewMessage(message) {
       this.selectedMessage = { ...message };
-      // Auto-mark as read if it's new
-      if (message.status === 'new') {
-        this.selectedMessage.status = 'read';
-        this.updateStatus();
-      }
     },
     closeModal() {
       this.selectedMessage = null;
